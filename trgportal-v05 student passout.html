@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>TRG Portal - Student Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        body { background: #f0f2f5; }
+        .page { display: none; min-height: 100vh; }
+        .page.active { display: block; }
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            padding: 20px;
+        }
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .login-card h2 { text-align: center; margin-bottom: 25px; color: #1e293b; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #475569; text-transform: uppercase; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
+        .form-control:focus { outline: none; border-color: #2563eb; }
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-wrapper input {
+            width: 100%;
+            padding: 10px 35px 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .password-wrapper button {
+            position: absolute;
+            right: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: #64748b;
+            padding: 5px;
+        }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
+        .btn-blue { background: #2563eb; width: 100%; }
+        .btn-blue:hover { background: #1d4ed8; }
+        .btn-green { background: #16a34a; }
+        .btn-green:hover { background: #15803d; }
+        .btn-red { background: #dc2626; }
+        .btn-red:hover { background: #b91c1c; }
+        .btn-orange { background: #ea580c; }
+        .btn-sm { padding: 5px 10px; font-size: 11px; }
+        .delete-btn { background: #dc2626; color: white; padding: 5px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .delete-btn:hover { background: #b91c1c; }
+        .edit-btn { background: #f59e0b; color: white; padding: 5px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .edit-btn:hover { background: #d97706; }
+        nav { background: #1e3a8a; color: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .nav-admin { background: #1e293b; }
+        .wrapper { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
+        .admin-layout { display: flex; min-height: calc(100vh - 70px); }
+        .admin-sidebar { width: 70px; background: #1e293b; display: flex; flex-direction: column; align-items: center; padding: 15px 0; gap: 10px; flex-shrink: 0; }
+        .admin-sidebar button { width: 50px; height: 50px; background: #334155; border: none; border-radius: 12px; cursor: pointer; font-size: 22px; transition: 0.2s; }
+        .admin-sidebar button:hover { background: #f59e0b; }
+        .admin-main { flex: 1; padding: 20px; overflow-x: auto; }
+        .admin-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px; overflow-x: auto; }
+        .admin-box h2 { font-size: 18px; margin-bottom: 15px; color: #1e293b; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
+        .phase-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 25px; }
+        .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .card h4 { color: #1e3a8a; font-size: 14px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; text-transform: uppercase; font-weight: bold; }
+        .data-list { list-style: none; }
+        .data-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 13px; align-items: center; }
+        .data-list span { color: #64748b; font-weight: 500; }
+        .data-list strong { color: #1e293b; text-align: left; }
+        .marks-percentage { color: #16a34a !important; font-weight: bold !important; margin-left: 5px; font-size: 11px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+        th { background: #f8fafc; color: #475569; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+        .rank-badge-c1 { background: #fef2f2; color: #dc2626; font-weight: bold; padding: 4px 10px; border-radius: 20px; border: 1px solid #fecaca; display: inline-block; font-size: 11px; }
+        .rank-badge-c2 { background: #fffbeb; color: #f59e0b; font-weight: bold; padding: 4px 10px; border-radius: 20px; border: 1px solid #fde68a; display: inline-block; font-size: 11px; }
+        .exams-table { width: 100%; margin: 15px 0; border-collapse: collapse; }
+        .exams-table th, .exams-table td { border: 1px solid #e2e8f0; padding: 10px 5px; text-align: center; font-size: 12px; }
+        .exams-table th { background: #f1f5f9; font-weight: bold; }
+        .exams-table td .marks { font-size: 16px; font-weight: bold; color: #1e293b; display: block; }
+        .exams-table td .date { font-size: 9px; color: #dc2626; display: block; margin-top: 4px; }
+        .metrics-block { display: flex; gap: 15px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .metric-card { background: #f8fafc; padding: 8px 15px; border-radius: 8px; text-align: center; min-width: 90px; border: 1px solid #e2e8f0; }
+        .metric-card span { display: block; font-size: 10px; color: #64748b; font-weight: bold; text-transform: uppercase; }
+        .metric-card strong { font-size: 18px; font-weight: bold; display: block; margin-top: 3px; color: #1e293b; }
+        .metric-card small { display: block; font-size: 9px; color: #94a3b8; margin-top: 3px; }
+        .endorse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+        .endorse-item { background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .endorse-item .title { font-size: 11px; font-weight: bold; display: block; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+        .endorse-item .title-c1 { color: #dc2626; }
+        .endorse-item .title-c2 { color: #f59e0b; }
+        .badge-container { max-height: 150px; overflow-y: auto; }
+        .status-badge { font-size: 10px; padding: 4px 6px; border-radius: 4px; margin-bottom: 3px; display: flex; justify-content: space-between; }
+        .status-complete { background: #dcfce7; color: #15803d; }
+        .status-scheduled { background: #fee2e2; color: #dc2626; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); overflow-y: auto; padding: 20px; }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; max-width: 1400px; width: 100%; border-radius: 16px; padding: 25px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .modal-header h2 { color: #1e293b; }
+        .info-section { background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 25px; }
+        .info-section h4 { margin-bottom: 15px; color: #1e3a8a; font-size: 16px; border-left: 4px solid #1e3a8a; padding-left: 10px; }
+        .class-section { background: #f8fafc; border-radius: 12px; padding: 20px; margin-bottom: 25px; }
+        .class-section h3 { font-size: 18px; margin-bottom: 15px; padding-bottom: 8px; }
+        .class1-section { border: 2px solid #dc2626; }
+        .class1-section h3 { color: #dc2626; border-bottom: 2px solid #dc2626; }
+        .class2-section { border: 2px solid #f59e0b; }
+        .class2-section h3 { color: #f59e0b; border-bottom: 2px solid #f59e0b; }
+        .marks-row { display: grid; grid-template-columns: repeat(9, minmax(70px, 1fr)); gap: 8px; margin-bottom: 10px; }
+        .marks-row-c2 { display: grid; grid-template-columns: repeat(8, minmax(70px, 1fr)); gap: 8px; margin-bottom: 10px; }
+        .field-group { margin-bottom: 12px; }
+        .field-group label { display: block; font-size: 10px; font-weight: bold; color: #475569; margin-bottom: 3px; text-transform: uppercase; }
+        .endorse-manage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+        .teacher-end-box { background: white; padding: 8px; border-radius: 8px; border: 1px solid #cbd5e1; min-height: 260px; }
+        .teacher-end-box h5 { font-size: 10px; font-weight: bold; margin-bottom: 5px; }
+        .end-records-list { font-size: 10px; max-height: 180px; overflow-y: auto; margin-bottom: 5px; }
+        .end-record-item { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 9px; border-bottom: 1px solid #eee; }
+        .leave-table { width: 100%; margin-top: 15px; }
+        .leave-table th, .leave-table td { padding: 8px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 12px; }
+        .btn-leave { padding: 6px 12px; font-size: 12px; height: 36px; margin-top: 22px; }
+        .student-leave-table { width: 100%; margin-top: 10px; }
+        .student-leave-table th, .student-leave-table td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 12px; }
+        .student-leave-table th { background: #f1f5f9; }
+        #toast { position: fixed; bottom: 30px; right: 30px; background: #16a34a; color: white; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: bold; z-index: 9999; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        #toast.error { background: #dc2626; }
+        #loading-overlay { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(30,58,138,0.9); align-items: center; justify-content: center; flex-direction: column; gap: 15px; }
+        #loading-overlay.show { display: flex; }
+        #loading-overlay p { color: white; font-size: 16px; font-weight: bold; }
+        .spinner { width: 48px; height: 48px; border: 5px solid #ffffff44; border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .password-col { font-family: monospace; font-size: 11px; background: #f1f5f9; padding: 4px 8px; border-radius: 6px; display: inline-block; }
+        .current-class-c1 { color: #dc2626 !important; font-weight: bold !important; font-size: 14px !important; background: none !important; }
+        .current-class-c2 { color: #f59e0b !important; font-weight: bold !important; font-size: 14px !important; background: none !important; }
+        .class-title-c1 { color: #dc2626; font-weight: bold; }
+        .class-title-c2 { color: #f59e0b; font-weight: bold; }
+        .leave-log-spacing { margin-bottom: 30px; }
+        .books-table { width: 100%; margin-top: 15px; }
+        .books-table th, .books-table td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .books-table th { background: #f1f5f9; }
+        .welcome-text { color: white; }
+        .student-name { color: white; }
+        .leave-class-c1 { color: #dc2626; font-weight: bold; }
+        .leave-class-c2 { color: #f59e0b; font-weight: bold; }
+        .placeholder-small::placeholder { font-size: 11px; color: #94a3b8; }
+        .passout-badge { background: #6b7280; color: white; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; margin-left: 8px; }
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .phase-container { grid-template-columns: 1fr; }
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .admin-layout { flex-direction: column; }
+            .admin-sidebar { width: 100%; flex-direction: row; justify-content: center; padding: 10px; }
+            .marks-row { grid-template-columns: repeat(4, 1fr); }
+            .marks-row-c2 { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .grid-4 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <p id="loading-msg">Connecting...</p>
+</div>
+<div id="toast"></div>
+
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page active">
+    <div class="login-container">
+        <div class="login-card">
+            <h2>🏫 TRG Portal</h2>
+            <div class="form-group">
+                <label>Select Role</label>
+                <select id="login-role" class="form-control">
+                    <option value="teacher">👨‍🏫 Teacher</option>
+                    <option value="student">🎓 Student</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="login-pass" class="form-control" placeholder="Enter Password">
+                    <button type="button" onclick="toggleLoginPassword()">👁️</button>
+                </div>
+            </div>
+            <button onclick="handleLogin()" class="btn btn-blue">Sign In</button>
+            <div style="text-align:center; margin-top:15px;">
+                <button onclick="showPage('page-forgot')" style="background:none;border:none;color:#2563eb;cursor:pointer;">🔐 Forgot Password?</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FORGOT PASSWORD -->
+<div id="page-forgot" class="page">
+    <div class="login-container">
+        <div class="login-card">
+            <h2>Reset Student Password</h2>
+            <div class="form-group"><label>Security Code</label><input type="text" id="forgot-code" class="form-control"></div>
+            <div class="form-group"><label>New Password</label><input type="password" id="forgot-new-pass" class="form-control"></div>
+            <button onclick="handleForgotPassword()" class="btn btn-green" style="width:100%;">Update Password</button>
+            <div style="text-align:center;margin-top:15px;"><button onclick="showPage('page-login')" style="background:none;border:none;color:#666;cursor:pointer;">← Back</button></div>
+        </div>
+    </div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div id="page-admin" class="page">
+    <nav class="nav-admin">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;">👨‍🏫</div>
+            <h2>TEACHER PANEL</h2>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <button onclick="showChangePasswordModal()" class="btn" style="background:#475569;padding:6px 12px;">🔑 Change Password</button>
+            <button onclick="logout()" class="btn btn-red">Logout</button>
+        </div>
+    </nav>
+    <div class="admin-layout">
+        <div class="admin-sidebar">
+            <button onclick="showAdminSection('students')" id="menu-students" style="background:#f59e0b;">👥</button>
+            <button onclick="showAdminSection('add')" id="menu-add">➕</button>
+            <button onclick="showAdminSection('books')" id="menu-books">📚</button>
+            <button onclick="showAdminSection('passout')" id="menu-passout">🎓</button>
+            <button onclick="showAdminSection('export')" id="menu-export">📄</button>
+        </div>
+        <div class="admin-main">
+            <div id="section-students" class="admin-section" style="display:block;">
+                <div class="admin-box"><h2>👥 Registered Students</h2>
+                    <div style="overflow-x:auto;">
+                        <table class="books-table">
+                            <thead><tr><th>Rank & Name</th><th>Class</th><th>City</th><th>Instructor</th><th>Password</th><th>Security Code</th><th>Status</th><th>Edit</th><th>Delete</th></tr></thead>
+                            <tbody id="admin-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="section-add" class="admin-section" style="display:none;">
+                <div class="admin-box"><h2>➕ Register New Student</h2>
+                    <div class="grid-4">
+                        <input type="text" id="new-name" placeholder="Full Name" class="form-control">
+                        <input type="text" id="new-city" placeholder="City" class="form-control">
+                        <input type="text" id="new-teacher" placeholder="Instructor" class="form-control">
+                        <input type="text" id="new-stamp" placeholder="Stamp No" class="form-control">
+                        <select id="new-active-phase" class="form-control"><option value="Class-1">Class-1</option><option value="Class-2">Class-2</option></select>
+                        <input type="text" id="new-pass" placeholder="Password" class="form-control">
+                        <input type="text" id="new-code" placeholder="Security Code" class="form-control">
+                        <select id="new-book-select" class="form-control"><option value="">-- Select Book --</option></select>
+                        <button onclick="addTrainee()" class="btn btn-blue">Add Student</button>
+                    </div>
+                </div>
+            </div>
+            <div id="section-books" class="admin-section" style="display:none;">
+                <div class="admin-box"><h2>📚 Books Management</h2>
+                    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-bottom:15px;">
+                        <input type="text" id="book-title-input" placeholder="Book Title" class="form-control">
+                        <input type="number" id="book-tasks-input" placeholder="Total Tasks" class="form-control" min="1">
+                        <button onclick="addBook()" class="btn btn-green">+ Add</button>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="books-table">
+                            <thead><tr><th>#</th><th>Title</th><th>Tasks</th><th>Edit</th><th>Delete</th></tr></thead>
+                            <tbody id="books-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="section-passout" class="admin-section" style="display:none;">
+                <div class="admin-box"><h2>🎓 Passout Students</h2>
+                    <div style="overflow-x:auto;">
+                        <table class="books-table">
+                            <thead><tr><th>Name</th><th>CNIC</th><th>City</th><th>Instructor</th><th>Book</th><th>Edit</th><th>Delete</th><th>Restore</th></tr></thead>
+                            <tbody id="passout-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="section-export" class="admin-section" style="display:none;">
+                <div class="admin-box" style="background:linear-gradient(135deg,#1e3a8a,#334155);color:white;">
+                    <h2>📄 Export Reports (PDF)</h2>
+                    <div style="background:white;border-radius:10px;padding:16px;color:#333;">
+                        <div id="export-checkboxes" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:16px;max-height:200px;overflow-y:auto;"></div>
+                        <button onclick="exportPDF()" class="btn" style="background:#f59e0b;color:#1e293b;">⬇️ Export Selected</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div id="edit-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 id="edit-modal-title">Edit Student Profile</h2><button onclick="closeEditModal()">&times;</button></div>
+        <div class="info-section"><h4>📋 Personal Information</h4>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;">
+                <div class="field-group"><label>Full Name</label><input type="text" id="edit-name" class="form-control" placeholder="Enter name"></div>
+                <div class="field-group"><label>CNIC</label><input type="text" id="edit-cnic" class="form-control" placeholder="Enter CNIC"></div>
+                <div class="field-group"><label>City</label><input type="text" id="edit-city" class="form-control" placeholder="Enter city"></div>
+                <div class="field-group"><label>Address</label><input type="text" id="edit-address" class="form-control" placeholder="Enter address"></div>
+                <div class="field-group"><label>Security Code</label><input type="text" id="edit-reset-code" class="form-control" placeholder="Enter code"></div>
+                <div class="field-group"><label>Current Class</label><select id="edit-active-phase" class="form-control"><option value="Class-1">Class-1</option><option value="Class-2">Class-2</option></select></div>
+                <div class="field-group"><label>Matric</label><input type="text" id="edit-matric" class="form-control placeholder-small" placeholder="e.g., 450/550"></div>
+                <div class="field-group"><label>FSc</label><input type="text" id="edit-fsc" class="form-control placeholder-small" placeholder="e.g., 450/550"></div>
+                <div class="field-group"><label>Karachi Exam</label><input type="text" id="edit-karachi" class="form-control placeholder-small" placeholder="e.g., 85/100"></div>
+                <div class="field-group"><label>Father</label><input type="text" id="edit-father" class="form-control" placeholder="Enter father name"></div>
+                <div class="field-group"><label>Mother</label><input type="text" id="edit-mother" class="form-control" placeholder="Enter mother name"></div>
+                <div class="field-group"><label>Brothers</label><input type="text" id="edit-brothers" class="form-control" placeholder="Number of brothers"></div>
+                <div class="field-group"><label>Sisters</label><input type="text" id="edit-sisters" class="form-control" placeholder="Number of sisters"></div>
+                <div class="field-group"><label>Contact</label><input type="text" id="edit-contact" class="form-control" placeholder="Contact number"></div>
+                <div class="field-group"><label>WhatsApp</label><input type="text" id="edit-whatsapp" class="form-control" placeholder="WhatsApp number"></div>
+                <div class="field-group"><label>Emergency</label><input type="text" id="edit-emergency" class="form-control" placeholder="Emergency contact"></div>
+                <div class="field-group"><label>Book</label><select id="edit-book-select" class="form-control"></select></div>
+                <div class="field-group"><label>Total Tasks</label><input type="number" id="edit-maintopics" class="form-control" readonly></div>
+                <div class="field-group"><label>Completed Tasks</label><input type="number" id="edit-subtopics" class="form-control" placeholder="0"></div>
+                <div class="field-group"><label>Instructor</label><input type="text" id="edit-teacher" class="form-control" placeholder="Instructor name"></div>
+                <div class="field-group"><label>Stamp No</label><input type="text" id="edit-stamp" class="form-control" placeholder="Stamp number"></div>
+                <div class="field-group"><label>New Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="edit-password" class="form-control" placeholder="Leave blank to keep">
+                        <button type="button" onclick="togglePassword('edit-password')">👁️</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="info-section"><h4>📅 Class Start & End Dates</h4>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;">
+                <div class="field-group"><label>Class-1 Start</label><input type="date" id="edit-c1-start" class="form-control"></div>
+                <div class="field-group"><label>Class-1 End</label><input type="date" id="edit-c1-end" class="form-control"></div>
+                <div class="field-group"><label>Class-2 Start</label><input type="date" id="edit-c2-start" class="form-control"></div>
+                <div class="field-group"><label>Class-2 End</label><input type="date" id="edit-c2-end" class="form-control"></div>
+            </div>
+        </div>
+        <div class="info-section"><h4>📝 Leave Management</h4>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;">
+                <div class="field-group"><label>From</label><input type="date" id="lv-from" class="form-control" onchange="autoCalcLeaveDays()"></div>
+                <div class="field-group"><label>To</label><input type="date" id="lv-to" class="form-control" onchange="autoCalcLeaveDays()"></div>
+                <div class="field-group"><label>Days</label><input type="text" id="lv-days" class="form-control" readonly></div>
+                <div class="field-group"><label>Class</label><select id="lv-phase" class="form-control"><option value="Class-1">Class-1</option><option value="Class-2">Class-2</option></select></div>
+                <div class="field-group"><label>Reason</label><input type="text" id="lv-reason" class="form-control" placeholder="Reason"></div>
+                <button onclick="addLeaveRow()" class="btn btn-green btn-leave">+ Add Leave</button>
+            </div>
+            <div style="overflow-x:auto;margin-top:15px;">
+                <table class="leave-table">
+                    <thead><tr><th>From</th><th>To</th><th>Days</th><th>Class</th><th>Reason</th><th>Action</th></tr></thead>
+                    <tbody id="modal-leaves-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="class-section class1-section"><h3>🔴 CLASS 1</h3>
+            <div class="marks-row">
+                <div class="field-group"><label>Orient</label><input type="number" id="edit-c1-orientation" class="form-control placeholder-small" placeholder="0" value="0"></div>
+                <div class="field-group"><label>Ev1</label><input type="number" id="edit-c1-ex0" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev2</label><input type="number" id="edit-c1-ex1" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev3</label><input type="number" id="edit-c1-ex2" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev4</label><input type="number" id="edit-c1-ex3" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev5</label><input type="number" id="edit-c1-ex4" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev6</label><input type="number" id="edit-c1-ex5" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Mid</label><input type="number" id="edit-c1-mid" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Final</label><input type="number" id="edit-c1-final" class="form-control placeholder-small" placeholder="00" value="0"></div>
+            </div>
+            <div class="marks-row">
+                <div class="field-group"><label>Orient Date</label><input type="date" id="edit-c1-date-orientation" class="form-control"></div>
+                <div class="field-group"><label>Ev1 Date</label><input type="date" id="edit-c1-date0" class="form-control"></div>
+                <div class="field-group"><label>Ev2 Date</label><input type="date" id="edit-c1-date1" class="form-control"></div>
+                <div class="field-group"><label>Ev3 Date</label><input type="date" id="edit-c1-date2" class="form-control"></div>
+                <div class="field-group"><label>Ev4 Date</label><input type="date" id="edit-c1-date3" class="form-control"></div>
+                <div class="field-group"><label>Ev5 Date</label><input type="date" id="edit-c1-date4" class="form-control"></div>
+                <div class="field-group"><label>Ev6 Date</label><input type="date" id="edit-c1-date5" class="form-control"></div>
+                <div class="field-group"><label>Mid Date</label><input type="date" id="edit-c1-date-mid" class="form-control"></div>
+                <div class="field-group"><label>Final Date</label><input type="date" id="edit-c1-date-final" class="form-control"></div>
+            </div>
+            <h5>Instructor Endorsements</h5>
+            <div id="c1-endorse-manage-container" class="endorse-manage-grid"></div>
+        </div>
+        <div class="class-section class2-section"><h3>🟡 CLASS 2</h3>
+            <div class="marks-row-c2">
+                <div class="field-group"><label>Ev1</label><input type="number" id="edit-c2-ex0" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev2</label><input type="number" id="edit-c2-ex1" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev3</label><input type="number" id="edit-c2-ex2" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev4</label><input type="number" id="edit-c2-ex3" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev5</label><input type="number" id="edit-c2-ex4" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Ev6</label><input type="number" id="edit-c2-ex5" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Mid</label><input type="number" id="edit-c2-mid" class="form-control placeholder-small" placeholder="00" value="0"></div>
+                <div class="field-group"><label>Final</label><input type="number" id="edit-c2-final" class="form-control placeholder-small" placeholder="00" value="0"></div>
+            </div>
+            <div class="marks-row-c2">
+                <div class="field-group"><label>Ev1 Date</label><input type="date" id="edit-c2-date0" class="form-control"></div>
+                <div class="field-group"><label>Ev2 Date</label><input type="date" id="edit-c2-date1" class="form-control"></div>
+                <div class="field-group"><label>Ev3 Date</label><input type="date" id="edit-c2-date2" class="form-control"></div>
+                <div class="field-group"><label>Ev4 Date</label><input type="date" id="edit-c2-date3" class="form-control"></div>
+                <div class="field-group"><label>Ev5 Date</label><input type="date" id="edit-c2-date4" class="form-control"></div>
+                <div class="field-group"><label>Ev6 Date</label><input type="date" id="edit-c2-date5" class="form-control"></div>
+                <div class="field-group"><label>Mid Date</label><input type="date" id="edit-c2-date-mid" class="form-control"></div>
+                <div class="field-group"><label>Final Date</label><input type="date" id="edit-c2-date-final" class="form-control"></div>
+            </div>
+            <h5>Instructor Endorsements</h5>
+            <div id="c2-endorse-manage-container" class="endorse-manage-grid"></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:15px;border-top:2px solid #e2e8f0;">
+            <button onclick="closeEditModal()" class="btn" style="background:#64748b;">Cancel</button>
+            <button onclick="saveTraineeData()" class="btn btn-green">💾 Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT LEAVE MODAL -->
+<div id="edit-leave-modal" class="modal">
+    <div class="modal-content" style="max-width:500px;">
+        <div class="modal-header"><h2>✏️ Edit Leave Record</h2><button onclick="closeModal('edit-leave-modal')">&times;</button></div>
+        <div class="field-group"><label>From Date</label><input type="date" id="edit-leave-from" class="form-control"></div>
+        <div class="field-group"><label>To Date</label><input type="date" id="edit-leave-to" class="form-control"></div>
+        <div class="field-group"><label>Days</label><input type="text" id="edit-leave-days" class="form-control" readonly></div>
+        <div class="field-group"><label>Class</label><select id="edit-leave-phase" class="form-control"><option value="Class-1">Class-1</option><option value="Class-2">Class-2</option></select></div>
+        <div class="field-group"><label>Reason</label><input type="text" id="edit-leave-reason" class="form-control"></div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:15px;">
+            <button onclick="closeModal('edit-leave-modal')" class="btn" style="background:#64748b;">Cancel</button>
+            <button onclick="saveLeaveEdit()" class="btn btn-green">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<div id="change-pass-modal" class="modal">
+    <div class="modal-content" style="max-width:400px;">
+        <div class="modal-header"><h2>🔑 Change Password</h2><button onclick="closeModal('change-pass-modal')">&times;</button></div>
+        <div class="field-group"><label>Current Password</label><input type="password" id="cp-current" class="form-control"></div>
+        <div class="field-group"><label>New Password</label><input type="password" id="cp-new" class="form-control"></div>
+        <div class="field-group"><label>Confirm</label><input type="password" id="cp-confirm" class="form-control"></div>
+        <button onclick="doChangeAdminPassword()" class="btn btn-green" style="width:100%;">Update</button>
+    </div>
+</div>
+
+<!-- STUDENT DASHBOARD -->
+<div id="page-trainee" class="page">
+    <nav>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:42px;height:42px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎓</div>
+            <div><span style="color:#f59e0b;font-size:11px;">Student Portal</span><h2 id="t-welcome-name" class="welcome-text">Welcome, <span id="t-student-name" class="student-name">--</span></h2></div>
+        </div>
+        <button onclick="logout()" class="btn btn-red">Logout</button>
+    </nav>
+    <div class="wrapper">
+        <div class="dashboard-grid">
+            <div class="card"><h4>📋 Personal & Education</h4>
+                <ul class="data-list">
+                    <li><span>Name:</span><strong id="t-profile-name">--</strong></li>
+                    <li><span>CNIC:</span><strong id="t-cnic">--</strong></li>
+                    <li><span>City:</span><strong id="t-city">--</strong></li>
+                    <li><span>Address:</span><strong id="t-address">--</strong></li>
+                    <li><span>Matric:</span><strong id="t-matric">--</strong></li>
+                    <li><span>FSc:</span><strong id="t-fsc">--</strong></li>
+                    <li><span>Karachi Exam:</span><strong id="t-karachi">--</strong></li>
+                </ul>
+            </div>
+            <div class="card"><h4>👨‍👩‍👧 Family & Contacts</h4>
+                <ul class="data-list">
+                    <li><span>Father:</span><strong id="t-father">--</strong></li>
+                    <li><span>Mother:</span><strong id="t-mother">--</strong></li>
+                    <li><span>Brothers:</span><strong id="t-brothers">--</strong></li>
+                    <li><span>Sisters:</span><strong id="t-sisters">--</strong></li>
+                    <li><span>Contact:</span><strong id="t-contact">--</strong></li>
+                    <li><span>WhatsApp:</span><strong id="t-whatsapp">--</strong></li>
+                    <li><span>Emergency:</span><strong id="t-emergency">--</strong></li>
+                </ul>
+            </div>
+            <div class="card"><h4>📚 Course Info</h4>
+                <ul class="data-list">
+                    <li><span>Current Class:</span><strong id="t-active-phase-badge">Class-1</strong></li>
+                    <li><span>Book:</span><strong id="t-book">--</strong></li>
+                    <li><span>Tasks:</span><span>Total <b id="t-main">0</b> / Done <b id="t-sub">0</b></span></li>
+                    <li><span>Instructor:</span><span><strong id="t-teacher">--</strong> (<code id="t-stamp">--</code>)</span></li>
+                    <li><span>Leaves Used:</span><strong id="t-total-leaves-badge">0/20</strong></li>
+                    <li><span>Class Rank:</span><strong id="t-class-rank">--</strong></li>
+                    <li><span>Overall Avg:</span><strong id="t-overall-avg">0%</strong></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card leave-log-spacing">
+            <h4>📜 Leave Logs</h4>
+            <div style="overflow-x:auto;">
+                <table class="student-leave-table">
+                    <thead><tr><th>From</th><th>To</th><th>Days</th><th>Class</th><th>Reason</th></tr></thead>
+                    <tbody id="student-leaves-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="phase-container">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;margin-bottom:15px;"><span id="c1-title" class="class-title-c1">📘 CLASS-1</span><span id="c1-date-info"></span></div>
+                <h5 style="color:#dc2626; margin-bottom:10px;">📊 Exam Result</h5>
+                <table class="exams-table" id="c1-exams-table">
+                    <thead>
+                        <tr><th>Orient</th><th>Ev1</th><th>Ev2</th><th>Ev3</th><th>Ev4</th><th>Ev5</th><th>Ev6</th></tr>
+                    </thead>
+                    <tbody id="c1-exams-body"></tbody>
+                </table>
+                <div class="metrics-block">
+                    <div class="metric-card"><span>📝 Mid</span><strong id="c1-mid">--</strong><small id="c1-mid-date"></small></div>
+                    <div class="metric-card"><span>📖 Final</span><strong id="c1-final">--</strong><small id="c1-final-date"></small></div>
+                    <div class="metric-card"><span>📊 Average %</span><strong id="c1-avg">--</strong></div>
+                </div>
+                <h5 style="margin:15px 0 10px 0; color:#dc2626;">📋 Instructor Endorsements</h5>
+                <div id="c1-end" class="endorse-grid"></div>
+            </div>
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;margin-bottom:15px;"><span id="c2-title" class="class-title-c2">📗 CLASS-2</span><span id="c2-date-info"></span></div>
+                <h5 style="color:#f59e0b; margin-bottom:10px;">📊 Exam Result</h5>
+                <table class="exams-table" id="c2-exams-table">
+                    <thead>
+                        <tr><th>Ev1</th><th>Ev2</th><th>Ev3</th><th>Ev4</th><th>Ev5</th><th>Ev6</th></tr>
+                    </thead>
+                    <tbody id="c2-exams-body"></tbody>
+                </table>
+                <div class="metrics-block">
+                    <div class="metric-card"><span>📝 Mid</span><strong id="c2-mid">--</strong><small id="c2-mid-date"></small></div>
+                    <div class="metric-card"><span>📖 Final</span><strong id="c2-final">--</strong><small id="c2-final-date"></small></div>
+                    <div class="metric-card"><span>📊 Average %</span><strong id="c2-avg">--</strong></div>
+                </div>
+                <h5 style="margin:15px 0 10px 0; color:#f59e0b;">📋 Instructor Endorsements</h5>
+                <div id="c2-end" class="endorse-grid"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCmhHQHFuHfjDFHRdNd13eTfrT6kHC-dks",
+        authDomain: "school-e1cc1.firebaseapp.com",
+        projectId: "school-e1cc1",
+        storageBucket: "school-e1cc1.firebasestorage.app",
+        messagingSenderId: "815705107899",
+        appId: "1:815705107899:web:a9db7bc62c65842b21289e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const COLL = "students_final_v21";
+    const PASS_OUT_COLL = "passout_students_v21";
+    const BOOKS_COLL = "books_final_v21";
+    let books = [];
+    let trainees = [];
+    let passoutStudents = [];
+    let activeUser = null;
+    let currentEditingIndex = null;
+    let tempLeavesBuffer = [];
+    let tempC1Endorsements = [[],[],[],[],[],[]];
+    let tempC2Endorsements = [[],[],[],[],[],[]];
+    let editLeaveIndex = null;
+    const teacherDesignations = ["T-Coord", "O-ic", "S-Cdr", "OC", "BTO", "B-Cdr"];
+
+    window.toggleLoginPassword = function() {
+        const input = document.getElementById('login-pass');
+        input.type = input.type === 'password' ? 'text' : 'password';
+    };
+
+    function showLoading(msg) { 
+        document.getElementById('loading-msg').innerText = msg; 
+        document.getElementById('loading-overlay').classList.add('show'); 
+    }
+    function hideLoading() { 
+        document.getElementById('loading-overlay').classList.remove('show'); 
+    }
+    function showToast(msg, isError=false) { 
+        const t = document.getElementById('toast'); 
+        t.innerText = msg; 
+        t.className = isError ? 'error' : ''; 
+        t.style.display = 'block'; 
+        setTimeout(() => t.style.display = 'none', 3000); 
+    }
+    window.showPage = function(id) { 
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); 
+        document.getElementById(id).classList.add('active'); 
+    };
+    function closeModal(id) { 
+        document.getElementById(id).classList.remove('active'); 
+    }
+    window.togglePassword = function(inputId) {
+        const input = document.getElementById(inputId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+    };
+
+    function calculatePercentage(marksStr) {
+        if(!marksStr) return null;
+        let parts = marksStr.split('/');
+        if(parts.length !== 2) return null;
+        let obtained = parseFloat(parts[0]), total = parseFloat(parts[1]);
+        if(isNaN(obtained) || isNaN(total) || total === 0) return null;
+        return ((obtained / total) * 100).toFixed(1);
+    }
+
+    function formatMarksWithPercentage(marksStr) {
+        if(!marksStr || !marksStr.includes('/')) return marksStr;
+        let percent = calculatePercentage(marksStr);
+        if(percent === null) return marksStr;
+        return `${marksStr} <span class="marks-percentage">(${percent}%)</span>`;
+    }
+
+    function formatDateDMY(dateStr) {
+        if(!dateStr) return '';
+        let parts = dateStr.split('-');
+        if(parts.length === 3) {
+            return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+        return dateStr;
+    }
+
+    async function hashPassword(pass) {
+        let msg = new TextEncoder().encode(pass);
+        let hash = await crypto.subtle.digest('SHA-256', msg);
+        return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function checkAdminPassword(pass) {
+        let hashed = await hashPassword(pass);
+        let snap = await getDoc(doc(db, "config", "admin"));
+        if(snap.exists()) return snap.data().passwordHash === hashed;
+        else { let def = await hashPassword("admin@123"); await setDoc(doc(db, "config", "admin"), { passwordHash: def }); return pass === "admin@123"; }
+    }
+
+    async function updateAdminPassword(newPass) { 
+        await setDoc(doc(db, "config", "admin"), { passwordHash: await hashPassword(newPass) }); 
+    }
+
+    async function loadBooks() {
+        try {
+            let snap = await getDocs(collection(db, BOOKS_COLL));
+            books = []; 
+            snap.forEach(d => books.push({_id: d.id, ...d.data()}));
+            let tb = document.getElementById('books-table-body');
+            if(tb) {
+                if(books.length === 0) tb.innerHTML = '<tr><td colspan="5" style="text-align:center;">No books added. Click "Add Book" to create one.缓解</td></tr>';
+                else tb.innerHTML = books.map((b,i) => `<tr>
+                    <td>${i+1}</td>
+                    <td><b>${b.title}</b></td>
+                    <td>${b.totalTasks}</td>
+                    <td><button onclick="editBook('${b._id}','${b.title}',${b.totalTasks})" class="btn btn-orange btn-sm">✏️ Edit</button></td>
+                    <td><button onclick="deleteBook('${b._id}')" class="delete-btn">Delete</button></td>
+                </tr>`).join('');
+            }
+            let opts = books.map(b => `<option value="${b._id}" data-tasks="${b.totalTasks}">${b.title}</option>`).join('');
+            let ns = document.getElementById('new-book-select'); if(ns) ns.innerHTML = '<option value="">-- Select Book --</option>' + opts;
+            let es = document.getElementById('edit-book-select'); if(es) es.innerHTML = '<option value="">-- Select Book --</option>' + opts;
+        } catch(e) { console.error("Error loading books:", e); }
+    }
+
+    window.addBook = async function() {
+        let title = document.getElementById('book-title-input').value.trim();
+        let tasks = parseInt(document.getElementById('book-tasks-input').value) || 0;
+        if(!title) return alert('Book title required');
+        if(tasks < 1) return alert('Tasks must be at least 1');
+        let id = Date.now().toString();
+        await setDoc(doc(db, BOOKS_COLL, id), { title, totalTasks: tasks });
+        await loadBooks();
+        document.getElementById('book-title-input').value = '';
+        document.getElementById('book-tasks-input').value = '';
+        showToast('Book added!');
+    };
+
+    window.editBook = async function(id, oldTitle, oldTasks) {
+        let newTitle = prompt('Edit Book Title:', oldTitle);
+        if(!newTitle) return;
+        let newTasks = parseInt(prompt('Edit Total Tasks:', oldTasks));
+        if(isNaN(newTasks) || newTasks < 1) return alert('Invalid tasks');
+        await updateDoc(doc(db, BOOKS_COLL, id), { title: newTitle, totalTasks: newTasks });
+        await loadBooks();
+        showToast('Book updated!');
+    };
+
+    window.deleteBook = async function(id) {
+        if(!confirm('Delete this book?')) return;
+        await deleteDoc(doc(db, BOOKS_COLL, id));
+        await loadBooks();
+        showToast('Book deleted');
+    };
+
+    async function loadPassoutStudents() {
+        try {
+            let snap = await getDocs(collection(db, PASS_OUT_COLL));
+            passoutStudents = [];
+            snap.forEach(d => {
+                let data = d.data();
+                passoutStudents.push({ _id: d.id, ...data });
+            });
+            renderPassoutTable();
+        } catch(e) { console.error("Error loading passout students:", e); }
+    }
+
+    function renderPassoutTable() {
+        let tb = document.getElementById('passout-table-body');
+        if(!tb) return;
+        if(passoutStudents.length === 0) {
+            tb.innerHTML = '<tr><td colspan="8" style="text-align:center;">No passout students found.缓解</tr>';
+            return;
+        }
+        tb.innerHTML = passoutStudents.map((t, idx) => `<tr>
+            <td><b>${t.name}</b><br><small>${t.cnic}</small></td>
+            <td>${t.cnic}</td>
+            <td>${t.city}</td>
+            <td>${t.teacher}</td>
+            <td>${t.book}</td>
+            <td><button onclick="openEditPassoutModal(${idx})" class="btn btn-orange btn-sm">📝 Edit</button></td>
+            <td><button onclick="deletePassoutStudent(${idx})" class="delete-btn">Delete</button></td>
+            <td><button onclick="restoreStudent(${idx})" class="btn btn-green btn-sm">↩️ Restore</button></td>
+        </tr>`).join('');
+    }
+
+    window.restoreStudent = async function(idx) {
+        if(!confirm('Restore this student to active list?')) return;
+        let student = passoutStudents[idx];
+        await setDoc(doc(db, COLL, student._id), student);
+        await deleteDoc(doc(db, PASS_OUT_COLL, student._id));
+        await loadTrainees();
+        await loadPassoutStudents();
+        renderAdminTable();
+        showToast('Student restored successfully!');
+    };
+
+    window.deletePassoutStudent = async function(idx) {
+        if(!confirm('Permanently delete this passout student?')) return;
+        await deleteDoc(doc(db, PASS_OUT_COLL, passoutStudents[idx]._id));
+        passoutStudents.splice(idx, 1);
+        renderPassoutTable();
+        showToast('Student deleted permanently');
+    };
+
+    window.moveToPassout = async function(idx) {
+        if(!confirm('Move this student to passout list? They will no longer be able to login.')) return;
+        let student = trainees[idx];
+        student.isPassout = true;
+        student.passoutDate = new Date().toISOString();
+        await setDoc(doc(db, PASS_OUT_COLL, student._id), student);
+        await deleteDoc(doc(db, COLL, student._id));
+        await loadTrainees();
+        await loadPassoutStudents();
+        renderAdminTable();
+        showToast('Student moved to passout list');
+    };
+
+    async function loadTrainees() {
+        showLoading('Loading students...');
+        try {
+            let snap = await getDocs(collection(db, COLL));
+            trainees = [];
+            snap.forEach(d => {
+                let data = d.data();
+                trainees.push({
+                    _id: d.id,
+                    name: data.name || '',
+                    cnic: data.cnic || '',
+                    city: data.city || '',
+                    address: data.address || '',
+                    password: data.password || '',
+                    passwordHash: data.passwordHash || '',
+                    resetCode: data.resetCode || '',
+                    activePhase: data.activePhase || 'Class-1',
+                    matric: data.matric || '',
+                    fsc: data.fsc || '',
+                    karachiMarks: data.karachiMarks || '',
+                    father: data.father || '',
+                    mother: data.mother || '',
+                    brothers: data.brothers || '',
+                    sisters: data.sisters || '',
+                    contact: data.contact || '',
+                    whatsapp: data.whatsapp || '',
+                    emergency: data.emergency || '',
+                    book: data.book || '',
+                    mainTopics: data.mainTopics || 0,
+                    subTopics: data.subTopics || 0,
+                    teacher: data.teacher || '',
+                    stampNo: data.stampNo || '',
+                    class1StartDate: data.class1StartDate || '',
+                    class1EndDate: data.class1EndDate || '',
+                    class2StartDate: data.class2StartDate || '',
+                    class2EndDate: data.class2EndDate || '',
+                    leavesList: data.leavesList || [],
+                    class1: { 
+                        orientation: data.class1?.orientation || 0, 
+                        exams: data.class1?.exams || [0,0,0,0,0,0], 
+                        mid: data.class1?.mid || 0, 
+                        final: data.class1?.final || 0, 
+                        avg: data.class1?.avg || '0%',
+                        examDates: data.class1?.examDates || {},
+                        endorsements: data.class1?.endorsements || "[[],[],[],[],[],[]]" 
+                    },
+                    class2: { 
+                        exams: data.class2?.exams || [0,0,0,0,0,0], 
+                        mid: data.class2?.mid || 0, 
+                        final: data.class2?.final || 0, 
+                        avg: data.class2?.avg || '0%',
+                        examDates: data.class2?.examDates || {},
+                        endorsements: data.class2?.endorsements || "[[],[],[],[],[],[]]" 
+                    }
+                });
+            });
+        } catch(e) { console.error("Error loading trainees:", e); }
+        hideLoading();
+        return trainees;
+    }
+
+    function serializeEndorsements(e) { return JSON.stringify(e); }
+    function deserializeEndorsements(e) {
+        if(!e) return [[],[],[],[],[],[]];
+        try { let p = JSON.parse(e); if(Array.isArray(p) && p.length === 6) return p; return [[],[],[],[],[],[]]; }
+        catch(e) { return [[],[],[],[],[],[]]; }
+    }
+
+    function saveTrainee(t) {
+        let id = t._id || Date.now().toString();
+        let saveData = {
+            name: t.name, cnic: t.cnic, city: t.city, address: t.address,
+            password: t.password, passwordHash: t.passwordHash, resetCode: t.resetCode,
+            activePhase: t.activePhase, matric: t.matric, fsc: t.fsc, karachiMarks: t.karachiMarks,
+            father: t.father, mother: t.mother, brothers: t.brothers, sisters: t.sisters,
+            contact: t.contact, whatsapp: t.whatsapp, emergency: t.emergency,
+            book: t.book, mainTopics: t.mainTopics, subTopics: t.subTopics,
+            teacher: t.teacher, stampNo: t.stampNo,
+            class1StartDate: t.class1StartDate, class1EndDate: t.class1EndDate,
+            class2StartDate: t.class2StartDate, class2EndDate: t.class2EndDate,
+            leavesList: t.leavesList,
+            class1: { 
+                orientation: t.class1.orientation, 
+                exams: t.class1.exams, 
+                mid: t.class1.mid, 
+                final: t.class1.final, 
+                avg: t.class1.avg, 
+                examDates: t.class1.examDates || {},
+                endorsements: JSON.stringify(t.class1.endorsements) 
+            },
+            class2: { 
+                exams: t.class2.exams, 
+                mid: t.class2.mid, 
+                final: t.class2.final, 
+                avg: t.class2.avg, 
+                examDates: t.class2.examDates || {},
+                endorsements: JSON.stringify(t.class2.endorsements) 
+            }
+        };
+        setDoc(doc(db, COLL, id), saveData).then(() => showToast('✅ Saved!')).catch(e => showToast('❌ Save failed', true));
+    }
+
+    function formatDate(d) { if(!d) return 'Not set'; let dt = new Date(d); return isNaN(dt) ? d : dt.toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'}); }
+    function formatDateShort(d) { if(!d) return ''; let dt = new Date(d); return isNaN(dt) ? d : formatDateDMY(d); }
+
+    function detectCurrentClass(t) {
+        let today = new Date(); today.setHours(0,0,0,0);
+        let parse = (s) => { if(!s) return null; let p = s.split('-'); return new Date(p[0], p[1]-1, p[2]); };
+        let c1S = parse(t.class1StartDate), c1E = parse(t.class1EndDate);
+        let c2S = parse(t.class2StartDate), c2E = parse(t.class2EndDate);
+        if(c1S && c1E && today >= c1S && today <= c1E) return "Class-1";
+        if(c2S && c2E && today >= c2S && today <= c2E) return "Class-2";
+        return t.activePhase || "Class-1";
+    }
+
+    function getRank(idx, classKey) {
+        let target = classKey === 'class1' ? 'Class-1' : 'Class-2';
+        let same = trainees.map((t,i) => ({index: i, score: parseFloat(t[classKey].avg) || 0, cls: detectCurrentClass(t)})).filter(x => x.cls === target);
+        same.sort((a,b) => b.score - a.score);
+        let pos = same.findIndex(x => x.index === idx);
+        return { rank: pos === -1 ? '--' : pos + 1, total: same.length };
+    }
+
+    window.handleLogin = async function() {
+        let role = document.getElementById('login-role').value;
+        let pass = document.getElementById('login-pass').value;
+        if(role === 'teacher') {
+            showLoading('Verifying...');
+            let ok = await checkAdminPassword(pass);
+            hideLoading();
+            if(ok) { await loadTrainees(); await loadBooks(); await loadPassoutStudents(); renderAdminTable(); showPage('page-admin'); }
+            else alert('❌ Incorrect Teacher Password!');
+        } else {
+            showLoading('Verifying...');
+            await loadTrainees();
+            await loadPassoutStudents();
+            let idx = trainees.findIndex(t => t.password === pass);
+            if(idx === -1) { let hash = await hashPassword(pass); idx = trainees.findIndex(t => t.passwordHash === hash); }
+            hideLoading();
+            if(idx !== -1) { 
+                activeUser = trainees[idx]; 
+                loadStudentDashboard(idx); 
+                showPage('page-trainee'); 
+            } else {
+                let passoutIdx = passoutStudents.findIndex(t => t.password === pass);
+                if(passoutIdx !== -1) {
+                    alert('❌ You are a passout student. You no longer have access to the portal.');
+                } else {
+                    alert('❌ Incorrect Student Password!');
+                }
+            }
+        }
+    };
+
+    window.handleForgotPassword = async function() {
+        let code = document.getElementById('forgot-code').value;
+        let newPass = document.getElementById('forgot-new-pass').value;
+        if(!code || !newPass) return alert('Both fields required');
+        await loadTrainees();
+        let idx = trainees.findIndex(t => t.resetCode === code);
+        if(idx === -1) return alert('Invalid security code');
+        trainees[idx].password = newPass;
+        trainees[idx].passwordHash = await hashPassword(newPass);
+        saveTrainee(trainees[idx]);
+        alert('Password updated!');
+        showPage('page-login');
+    };
+
+    function renderAdminTable() {
+        let tb = document.getElementById('admin-table-body');
+        if(!tb) return;
+        tb.innerHTML = '';
+        let exp = document.getElementById('export-checkboxes');
+        if(exp) {
+            exp.innerHTML = '<label><input type="checkbox" id="export-all-chk" onchange="toggleAllExport(this.checked)"> <b>Select All</b></label>';
+            trainees.forEach((t,i) => { exp.innerHTML += `<label><input type="checkbox" class="export-chk" value="${i}"> ${t.name}</label>`; });
+        }
+        trainees.forEach((t, idx) => {
+            let cls = detectCurrentClass(t);
+            let key = cls === 'Class-2' ? 'class2' : 'class1';
+            let r = getRank(idx, key);
+            let badge = cls === 'Class-1' ? 'rank-badge-c1' : 'rank-badge-c2';
+            tb.innerHTML += `<tr>
+                <td><div><span class="${badge}">${cls}: #${r.rank}/${r.total}</span></div><b>${t.name}</b><br><small>${t.cnic}</small></td>
+                <td><span class="${cls === 'Class-1' ? 'class-badge-c1' : 'class-badge-c2'}">${cls}</span></td>
+                <td>${t.city}</td>
+                <td>${t.teacher}</td>
+                <td><span class="password-col">${t.password || 'set'}</span></td>
+                <td style="color:#b45309;">${t.resetCode}</td>
+                <td><button onclick="moveToPassout(${idx})" class="btn" style="background:#6b7280;padding:5px 10px;">🎓 Passout</button></td>
+                <td><button onclick="openEditModal(${idx})" class="btn btn-orange btn-sm">📝 Edit</button></td>
+                <td><button onclick="removeTrainee(${idx})" class="delete-btn">Delete</button></td>
+            </tr>`;
+        });
+    }
+
+    window.addTrainee = async function() {
+        let name = document.getElementById('new-name').value.trim();
+        let pass = document.getElementById('new-pass').value.trim();
+        let code = document.getElementById('new-code').value.trim();
+        if(!name || !pass || !code) return alert('Name, Password, and Security Code are required!');
+        let sel = document.getElementById('new-book-select');
+        let bookTitle = sel.options[sel.selectedIndex]?.text || "Standard Book";
+        let bookTasks = parseInt(sel.options[sel.selectedIndex]?.dataset?.tasks) || 0;
+        let newId = Date.now().toString();
+        try {
+            showLoading('Adding student...');
+            await setDoc(doc(db, COLL, newId), {
+                name, cnic: "", city: document.getElementById('new-city').value || "", address: "",
+                password: pass, passwordHash: await hashPassword(pass), resetCode: code,
+                activePhase: document.getElementById('new-active-phase').value,
+                matric: "", fsc: "", karachiMarks: "", father: "", mother: "", brothers: "", sisters: "",
+                contact: "", whatsapp: "", emergency: "", book: bookTitle, mainTopics: bookTasks, subTopics: 0,
+                teacher: document.getElementById('new-teacher').value || "", stampNo: document.getElementById('new-stamp').value || "",
+                class1StartDate: "", class1EndDate: "", class2StartDate: "", class2EndDate: "", leavesList: [],
+                class1: { orientation: 0, exams: [0,0,0,0,0,0], mid: 0, final: 0, avg: "0%", examDates: {}, endorsements: "[[],[],[],[],[],[]]" },
+                class2: { exams: [0,0,0,0,0,0], mid: 0, final: 0, avg: "0%", examDates: {}, endorsements: "[[],[],[],[],[],[]]" }
+            });
+            await loadTrainees();
+            hideLoading();
+            alert('✅ Student added successfully!');
+            renderAdminTable();
+            document.getElementById('new-name').value = ''; document.getElementById('new-pass').value = ''; document.getElementById('new-code').value = '';
+            document.getElementById('new-city').value = ''; document.getElementById('new-teacher').value = ''; document.getElementById('new-stamp').value = '';
+            document.getElementById('new-book-select').value = '';
+        } catch(e) { hideLoading(); alert('❌ Error: ' + e.message); }
+    };
+
+    window.removeTrainee = async function(idx) {
+        if(!confirm('Delete this student?')) return;
+        await deleteDoc(doc(db, COLL, trainees[idx]._id));
+        trainees.splice(idx, 1);
+        renderAdminTable();
+    };
+
+    window.openEditPassoutModal = async function(idx) {
+        let student = passoutStudents[idx];
+        alert('Edit functionality for passout students - implement similar to regular students');
+    };
+
+    window.autoCalcLeaveDays = function() {
+        let f = document.getElementById('lv-from').value, t = document.getElementById('lv-to').value;
+        if(f && t) { let diff = Math.ceil((new Date(t) - new Date(f)) / 86400000) + 1; document.getElementById('lv-days').value = isNaN(diff) ? 0 : diff; }
+    };
+    window.addLeaveRow = function() {
+        let from = document.getElementById('lv-from').value, to = document.getElementById('lv-to').value, days = parseInt(document.getElementById('lv-days').value) || 1;
+        let phase = document.getElementById('lv-phase').value, reason = document.getElementById('lv-reason').value;
+        if(!from || !to) return alert('Select dates');
+        tempLeavesBuffer.push({ from, to, days, phase, reason: reason || '' });
+        document.getElementById('lv-from').value = ''; document.getElementById('lv-to').value = ''; document.getElementById('lv-days').value = ''; document.getElementById('lv-reason').value = '';
+        renderLeavesTable();
+    };
+    window.deleteLeaveRow = function(i) { tempLeavesBuffer.splice(i,1); renderLeavesTable(); };
+    window.editLeaveRow = function(i) {
+        editLeaveIndex = i;
+        let l = tempLeavesBuffer[i];
+        document.getElementById('edit-leave-from').value = l.from;
+        document.getElementById('edit-leave-to').value = l.to;
+        document.getElementById('edit-leave-days').value = l.days;
+        document.getElementById('edit-leave-phase').value = l.phase;
+        document.getElementById('edit-leave-reason').value = l.reason;
+        document.getElementById('edit-leave-modal').classList.add('active');
+    };
+    window.saveLeaveEdit = function() {
+        if(editLeaveIndex !== null) {
+            let from = document.getElementById('edit-leave-from').value;
+            let to = document.getElementById('edit-leave-to').value;
+            let days = parseInt(document.getElementById('edit-leave-days').value) || 1;
+            let phase = document.getElementById('edit-leave-phase').value;
+            let reason = document.getElementById('edit-leave-reason').value;
+            tempLeavesBuffer[editLeaveIndex] = { from, to, days, phase, reason: reason || '' };
+            editLeaveIndex = null;
+            closeModal('edit-leave-modal');
+            renderLeavesTable();
+        }
+    };
+    function renderLeavesTable() {
+        let tb = document.getElementById('modal-leaves-tbody');
+        if(!tb) return;
+        tb.innerHTML = tempLeavesBuffer.map((l,i) => `<tr>
+            <td>${l.from}</td>
+            <td>${l.to}</td>
+            <td>${l.days}</td>
+            <td>${l.phase}</td>
+            <td>${l.reason}</td>
+            <td><button onclick="editLeaveRow(${i})" class="edit-btn btn-sm">✏️ Edit</button> <button onclick="deleteLeaveRow(${i})" class="delete-btn btn-sm">Delete</button></td>
+        </tr>`).join('');
+    }
+
+    function sortEndorsementsByDate(endorsements) {
+        for(let i = 0; i < endorsements.length; i++) {
+            if(endorsements[i] && endorsements[i].length > 0) {
+                endorsements[i].sort((a, b) => new Date(a.date) - new Date(b.date));
+            }
+        }
+        return endorsements;
+    }
+
+    function renderEndorsements(classNum) {
+        let cont = document.getElementById(classNum === 1 ? 'c1-endorse-manage-container' : 'c2-endorse-manage-container');
+        let buf = classNum === 1 ? tempC1Endorsements : tempC2Endorsements;
+        if(!cont) return;
+        cont.innerHTML = '';
+        for(let i = 0; i < 6; i++) {
+            let recs = (buf[i] || []).sort((a, b) => new Date(a.date) - new Date(b.date));
+            let recsHtml = recs.length ? recs.map((r, ri) => `<div class="end-record-item"><span>📅 ${formatDateDMY(r.date)} (${r.checked ? '✔ Comp' : '⏳ Schd'})</span><div><button onclick="editEndorse(${classNum},${i},${ri})" class="edit-btn btn-sm" style="padding:2px 6px; margin-right:3px;">✏️</button><button onclick="removeEndorse(${classNum},${i},${ri})" class="delete-btn btn-sm" style="padding:2px 6px;">🗑️</button></div></div>`).join('') : '<div style="color:#aaa; text-align:center; padding:5px;">No records</div>';
+            cont.innerHTML += `<div class="teacher-end-box"><h5>${teacherDesignations[i]}</h5><div class="end-records-list">${recsHtml}</div>
+                <input type="date" id="end-date-${classNum}-${i}" class="form-control" style="padding:3px;margin-bottom:3px;">
+                <label style="font-size:10px;"><input type="checkbox" id="end-chk-${classNum}-${i}"> Complete?</label>
+                <button class="btn btn-green btn-sm" onclick="addEndorse(${classNum},${i})" style="margin-top:3px;">+ Add</button></div>`;
+        }
+    }
+
+    window.addEndorse = function(classNum, ti) {
+        let date = document.getElementById(`end-date-${classNum}-${ti}`).value;
+        let chk = document.getElementById(`end-chk-${classNum}-${ti}`).checked;
+        if(!date) return alert('Pick a date');
+        let buf = classNum === 1 ? tempC1Endorsements : tempC2Endorsements;
+        if(!buf[ti]) buf[ti] = [];
+        buf[ti].push({ date, checked: chk });
+        buf[ti].sort((a, b) => new Date(a.date) - new Date(b.date));
+        renderEndorsements(classNum);
+    };
+    
+    window.editEndorse = function(classNum, ti, ri) {
+        let buf = classNum === 1 ? tempC1Endorsements : tempC2Endorsements;
+        let record = buf[ti][ri];
+        let newDate = prompt('Edit Date (YYYY-MM-DD):', record.date);
+        if(newDate && newDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+            let newChecked = confirm('Mark as Completed? Click OK for Yes, Cancel for No');
+            record.date = newDate;
+            record.checked = newChecked;
+            buf[ti].sort((a, b) => new Date(a.date) - new Date(b.date));
+            renderEndorsements(classNum);
+        } else if(newDate) {
+            alert('Invalid date format. Use YYYY-MM-DD');
+        }
+    };
+    
+    window.removeEndorse = function(classNum, ti, ri) {
+        if(confirm('Delete this endorsement record?')) {
+            let buf = classNum === 1 ? tempC1Endorsements : tempC2Endorsements;
+            buf[ti].splice(ri, 1);
+            renderEndorsements(classNum);
+        }
+    };
+
+    window.openEditModal = function(idx) {
+        currentEditingIndex = idx;
+        let t = trainees[idx];
+        tempLeavesBuffer = JSON.parse(JSON.stringify(t.leavesList || []));
+        tempC1Endorsements = deserializeEndorsements(t.class1.endorsements);
+        tempC2Endorsements = deserializeEndorsements(t.class2.endorsements);
+        
+        document.getElementById('edit-name').value = t.name || ''; document.getElementById('edit-cnic').value = t.cnic || '';
+        document.getElementById('edit-city').value = t.city || ''; document.getElementById('edit-address').value = t.address || '';
+        document.getElementById('edit-reset-code').value = t.resetCode || ''; document.getElementById('edit-active-phase').value = t.activePhase || 'Class-1';
+        document.getElementById('edit-matric').value = t.matric || ''; document.getElementById('edit-fsc').value = t.fsc || '';
+        document.getElementById('edit-karachi').value = t.karachiMarks || ''; document.getElementById('edit-father').value = t.father || '';
+        document.getElementById('edit-mother').value = t.mother || ''; document.getElementById('edit-brothers').value = t.brothers || '';
+        document.getElementById('edit-sisters').value = t.sisters || ''; document.getElementById('edit-contact').value = t.contact || '';
+        document.getElementById('edit-whatsapp').value = t.whatsapp || ''; document.getElementById('edit-emergency').value = t.emergency || '';
+        document.getElementById('edit-subtopics').value = t.subTopics || 0; document.getElementById('edit-teacher').value = t.teacher || '';
+        document.getElementById('edit-stamp').value = t.stampNo || ''; document.getElementById('edit-c1-start').value = t.class1StartDate || '';
+        document.getElementById('edit-c1-end').value = t.class1EndDate || ''; document.getElementById('edit-c2-start').value = t.class2StartDate || '';
+        document.getElementById('edit-c2-end').value = t.class2EndDate || '';
+        
+        loadBooks().then(() => {
+            let match = books.find(b => b.title === t.book);
+            if(match) { document.getElementById('edit-book-select').value = match._id; document.getElementById('edit-maintopics').value = match.totalTasks; }
+            else document.getElementById('edit-maintopics').value = t.mainTopics || 0;
+        });
+        
+        document.getElementById('edit-c1-orientation').value = t.class1.orientation;
+        for(let i=0;i<6;i++) document.getElementById(`edit-c1-ex${i}`).value = t.class1.exams[i];
+        document.getElementById('edit-c1-mid').value = t.class1.mid; document.getElementById('edit-c1-final').value = t.class1.final;
+        let c1d = t.class1.examDates || {};
+        document.getElementById('edit-c1-date-orientation').value = c1d.orientation || '';
+        for(let i=0;i<6;i++) document.getElementById(`edit-c1-date${i}`).value = c1d[`v${i}`] || '';
+        document.getElementById('edit-c1-date-mid').value = c1d.mid || ''; document.getElementById('edit-c1-date-final').value = c1d.final || '';
+        
+        for(let i=0;i<6;i++) document.getElementById(`edit-c2-ex${i}`).value = t.class2.exams[i];
+        document.getElementById('edit-c2-mid').value = t.class2.mid; document.getElementById('edit-c2-final').value = t.class2.final;
+        let c2d = t.class2.examDates || {};
+        for(let i=0;i<6;i++) document.getElementById(`edit-c2-date${i}`).value = c2d[`v${i}`] || '';
+        document.getElementById('edit-c2-date-mid').value = c2d.mid || ''; document.getElementById('edit-c2-date-final').value = c2d.final || '';
+        
+        renderLeavesTable(); renderEndorsements(1); renderEndorsements(2);
+        document.getElementById('edit-modal').classList.add('active');
+    };
+
+    window.closeEditModal = function() { document.getElementById('edit-modal').classList.remove('active'); };
+
+    window.saveTraineeData = async function() {
+        if(currentEditingIndex === null) return;
+        let t = trainees[currentEditingIndex];
+        let newPass = document.getElementById('edit-password').value.trim();
+        if(newPass) { t.password = newPass; t.passwordHash = await hashPassword(newPass); }
+        let newCode = document.getElementById('edit-reset-code').value.trim();
+        if(newCode) t.resetCode = newCode;
+        t.name = document.getElementById('edit-name').value; t.cnic = document.getElementById('edit-cnic').value;
+        t.city = document.getElementById('edit-city').value; t.address = document.getElementById('edit-address').value;
+        t.activePhase = document.getElementById('edit-active-phase').value;
+        t.matric = document.getElementById('edit-matric').value; t.fsc = document.getElementById('edit-fsc').value;
+        t.karachiMarks = document.getElementById('edit-karachi').value;
+        t.father = document.getElementById('edit-father').value; t.mother = document.getElementById('edit-mother').value;
+        t.brothers = document.getElementById('edit-brothers').value; t.sisters = document.getElementById('edit-sisters').value;
+        t.contact = document.getElementById('edit-contact').value; t.whatsapp = document.getElementById('edit-whatsapp').value;
+        t.emergency = document.getElementById('edit-emergency').value;
+        t.subTopics = parseInt(document.getElementById('edit-subtopics').value) || 0;
+        t.teacher = document.getElementById('edit-teacher').value; t.stampNo = document.getElementById('edit-stamp').value;
+        t.class1StartDate = document.getElementById('edit-c1-start').value; t.class1EndDate = document.getElementById('edit-c1-end').value;
+        t.class2StartDate = document.getElementById('edit-c2-start').value; t.class2EndDate = document.getElementById('edit-c2-end').value;
+        t.leavesList = tempLeavesBuffer;
+        
+        let bookSel = document.getElementById('edit-book-select');
+        let bookOpt = bookSel.options[bookSel.selectedIndex];
+        if(bookOpt && bookOpt.value) { t.book = bookOpt.text; t.mainTopics = parseInt(bookOpt.dataset.tasks) || 0; }
+        
+        let c1sum = parseInt(document.getElementById('edit-c1-orientation').value) || 0;
+        for(let i=0;i<6;i++) { t.class1.exams[i] = parseInt(document.getElementById(`edit-c1-ex${i}`).value) || 0; c1sum += t.class1.exams[i]; }
+        t.class1.mid = parseInt(document.getElementById('edit-c1-mid').value) || 0;
+        t.class1.final = parseInt(document.getElementById('edit-c1-final').value) || 0;
+        c1sum += (t.class1.mid + t.class1.final);
+        t.class1.avg = ((c1sum / 900) * 100).toFixed(1) + "%";
+        t.class1.orientation = parseInt(document.getElementById('edit-c1-orientation').value) || 0;
+        
+        t.class1.examDates = {
+            orientation: document.getElementById('edit-c1-date-orientation').value,
+            v0: document.getElementById('edit-c1-date0').value, 
+            v1: document.getElementById('edit-c1-date1').value,
+            v2: document.getElementById('edit-c1-date2').value, 
+            v3: document.getElementById('edit-c1-date3').value,
+            v4: document.getElementById('edit-c1-date4').value, 
+            v5: document.getElementById('edit-c1-date5').value,
+            mid: document.getElementById('edit-c1-date-mid').value, 
+            final: document.getElementById('edit-c1-date-final').value
+        };
+        t.class1.endorsements = tempC1Endorsements;
+        
+        let c2sum = 0;
+        for(let i=0;i<6;i++) { t.class2.exams[i] = parseInt(document.getElementById(`edit-c2-ex${i}`).value) || 0; c2sum += t.class2.exams[i]; }
+        t.class2.mid = parseInt(document.getElementById('edit-c2-mid').value) || 0;
+        t.class2.final = parseInt(document.getElementById('edit-c2-final').value) || 0;
+        c2sum += (t.class2.mid + t.class2.final);
+        t.class2.avg = ((c2sum / 800) * 100).toFixed(1) + "%";
+        
+        t.class2.examDates = {
+            v0: document.getElementById('edit-c2-date0').value, 
+            v1: document.getElementById('edit-c2-date1').value,
+            v2: document.getElementById('edit-c2-date2').value, 
+            v3: document.getElementById('edit-c2-date3').value,
+            v4: document.getElementById('edit-c2-date4').value, 
+            v5: document.getElementById('edit-c2-date5').value,
+            mid: document.getElementById('edit-c2-date-mid').value, 
+            final: document.getElementById('edit-c2-date-final').value
+        };
+        t.class2.endorsements = tempC2Endorsements;
+        
+        saveTrainee(t);
+        closeEditModal();
+        renderAdminTable();
+    };
+
+    function loadStudentDashboard(idx) {
+        let t = trainees[idx];
+        let cls = detectCurrentClass(t);
+        let key = cls === 'Class-2' ? 'class2' : 'class1';
+        let r = getRank(idx, key);
+        
+        document.getElementById('t-welcome-name').innerHTML = `Welcome, <span id="t-student-name" style="color:white;">${t.name}</span>`;
+        document.getElementById('t-profile-name').innerText = t.name;
+        document.getElementById('t-cnic').innerText = t.cnic;
+        document.getElementById('t-city').innerText = t.city;
+        document.getElementById('t-address').innerText = t.address;
+        
+        document.getElementById('t-matric').innerHTML = formatMarksWithPercentage(t.matric);
+        document.getElementById('t-fsc').innerHTML = formatMarksWithPercentage(t.fsc);
+        document.getElementById('t-karachi').innerHTML = formatMarksWithPercentage(t.karachiMarks);
+        
+        document.getElementById('t-father').innerText = t.father;
+        document.getElementById('t-mother').innerText = t.mother;
+        document.getElementById('t-brothers').innerText = t.brothers;
+        document.getElementById('t-sisters').innerText = t.sisters;
+        document.getElementById('t-contact').innerText = t.contact;
+        document.getElementById('t-whatsapp').innerText = t.whatsapp;
+        document.getElementById('t-emergency').innerText = t.emergency;
+        
+        let badge = document.getElementById('t-active-phase-badge');
+        badge.innerText = cls;
+        badge.className = cls === 'Class-1' ? 'current-class-c1' : 'current-class-c2';
+        
+        document.getElementById('t-book').innerText = t.book;
+        document.getElementById('t-main').innerText = t.mainTopics;
+        document.getElementById('t-sub').innerText = t.subTopics;
+        document.getElementById('t-teacher').innerText = t.teacher;
+        document.getElementById('t-stamp').innerText = t.stampNo;
+        document.getElementById('t-class-rank').innerHTML = `#${r.rank}/${r.total}`;
+        
+        let totalDays = 0, sb = document.getElementById('student-leaves-tbody');
+        sb.innerHTML = '';
+        if(t.leavesList && t.leavesList.length > 0) {
+            t.leavesList.forEach(l => { 
+                totalDays += l.days; 
+                let leaveClassColor = l.phase === 'Class-1' ? 'leave-class-c1' : 'leave-class-c2';
+                sb.innerHTML += `<tr>
+                    <td>${formatDateDMY(l.from)}</td>
+                    <td>${formatDateDMY(l.to)}</td>
+                    <td>${l.days}</td>
+                    <td class="${leaveClassColor}">${l.phase}</td>
+                    <td>${l.reason}</td>
+                </tr>`;
+            });
+        } else { 
+            sb.innerHTML = '<tr><td colspan="5">No leave records found.缓解</tr>'; 
+        }
+        document.getElementById('t-total-leaves-badge').innerHTML = `${totalDays}/20`;
+        
+        let c1a = parseFloat(t.class1.avg) || 0, c2a = parseFloat(t.class2.avg) || 0;
+        document.getElementById('t-overall-avg').innerHTML = ((c1a + c2a) / 2).toFixed(1) + "%";
+        
+        document.getElementById('c1-date-info').innerHTML = (t.class1StartDate && t.class1EndDate) ? `${formatDate(t.class1StartDate)} → ${formatDate(t.class1EndDate)}` : 'Dates not set';
+        document.getElementById('c1-mid').innerText = t.class1.mid;
+        document.getElementById('c1-final').innerText = t.class1.final;
+        document.getElementById('c1-avg').innerText = t.class1.avg;
+        
+        let c1d = t.class1.examDates || {};
+        document.getElementById('c1-mid-date').innerHTML = c1d.mid ? formatDateDMY(c1d.mid) : '';
+        document.getElementById('c1-final-date').innerHTML = c1d.final ? formatDateDMY(c1d.final) : '';
+        
+        let c1ExamsBody = document.getElementById('c1-exams-body');
+        c1ExamsBody.innerHTML = `<tr>
+            <td><span class="marks">${t.class1.orientation}</span><span class="date">${formatDateDMY(c1d.orientation)}</span></td>
+            ${[0,1,2,3,4,5].map(i => `<td><span class="marks">${t.class1.exams[i]}</span><span class="date">${formatDateDMY(c1d[`v${i}`])}</span></td>`).join('')}
+        </tr>`;
+        
+        let c1end = '';
+        let c1Endorsements = sortEndorsementsByDate(deserializeEndorsements(t.class1.endorsements));
+        for(let i = 0; i < 6; i++) {
+            let recs = c1Endorsements[i] || [];
+            c1end += `<div class="endorse-item"><span class="title title-c1">${teacherDesignations[i]}</span><div class="badge-container">${recs.map(r => `<div class="status-badge ${r.checked ? 'status-complete' : 'status-scheduled'}"><span>📅 ${formatDateDMY(r.date)}</span><span>${r.checked ? 'Comp' : 'Schd'}</span></div>`).join('') || '<span>No records</span>'}</div></div>`;
+        }
+        document.getElementById('c1-end').innerHTML = c1end;
+        
+        document.getElementById('c2-date-info').innerHTML = (t.class2StartDate && t.class2EndDate) ? `${formatDate(t.class2StartDate)} → ${formatDate(t.class2EndDate)}` : 'Dates not set';
+        document.getElementById('c2-mid').innerText = t.class2.mid;
+        document.getElementById('c2-final').innerText = t.class2.final;
+        document.getElementById('c2-avg').innerText = t.class2.avg;
+        
+        let c2d = t.class2.examDates || {};
+        document.getElementById('c2-mid-date').innerHTML = c2d.mid ? formatDateDMY(c2d.mid) : '';
+        document.getElementById('c2-final-date').innerHTML = c2d.final ? formatDateDMY(c2d.final) : '';
+        
+        let c2ExamsBody = document.getElementById('c2-exams-body');
+        c2ExamsBody.innerHTML = `<tr>
+            ${[0,1,2,3,4,5].map(i => `<td><span class="marks">${t.class2.exams[i]}</span><span class="date">${formatDateDMY(c2d[`v${i}`])}</span></td>`).join('')}
+        </tr>`;
+        
+        let c2end = '';
+        let c2Endorsements = sortEndorsementsByDate(deserializeEndorsements(t.class2.endorsements));
+        for(let i = 0; i < 6; i++) {
+            let recs = c2Endorsements[i] || [];
+            c2end += `<div class="endorse-item"><span class="title title-c2">${teacherDesignations[i]}</span><div class="badge-container">${recs.map(r => `<div class="status-badge ${r.checked ? 'status-complete' : 'status-scheduled'}"><span>📅 ${formatDateDMY(r.date)}</span><span>${r.checked ? 'Comp' : 'Schd'}</span></div>`).join('') || '<span>No records</span>'}</div></div>`;
+        }
+        document.getElementById('c2-end').innerHTML = c2end;
+    }
+
+    window.showChangePasswordModal = function() {
+        document.getElementById('cp-current').value = '';
+        document.getElementById('cp-new').value = '';
+        document.getElementById('cp-confirm').value = '';
+        document.getElementById('change-pass-modal').classList.add('active');
+    };
+    
+    window.doChangeAdminPassword = async function() {
+        let cur = document.getElementById('cp-current').value;
+        let nw = document.getElementById('cp-new').value;
+        let cf = document.getElementById('cp-confirm').value;
+        if(!cur || !nw || !cf) return alert('All fields required');
+        if(nw !== cf) return alert('Passwords do not match');
+        let ok = await checkAdminPassword(cur);
+        if(!ok) return alert('Current password incorrect');
+        await updateAdminPassword(nw);
+        alert('Password updated!');
+        closeModal('change-pass-modal');
+    };
+
+    window.exportPDF = function() {
+        let checked = [...document.querySelectorAll('.export-chk:checked')].map(c => parseInt(c.value));
+        if(checked.length === 0) return alert('Select at least one student');
+        let toExport = checked.map(i => trainees[i]);
+        let fmtD = d => { if(!d) return 'N/A'; let p=d.split('-'); if(p.length===3){ let dt=new Date(p[0],p[1]-1,p[2]); return dt.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}); } return d; };
+        let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Student Reports</title><style>
+            *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+            body{background:#f0f4f8;}
+            .card{max-width:100%;margin:20px;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);page-break-after:always;}
+            .card:last-child{page-break-after:auto;}
+            .header{background:linear-gradient(135deg,#1e3a8a,#334155);color:white;padding:20px;}
+            .header-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+            .class-badge{background:#f59e0b;color:#1e293b;padding:4px 12px;border-radius:20px;display:inline-block;font-size:12px;font-weight:bold;}
+            .rank-num{font-size:28px;font-weight:900;color:#f59e0b;}
+            .name-row h2{font-size:18px;margin:10px 0 5px;}
+            .body{padding:16px;}
+            .section{margin-bottom:16px;}
+            .section-title{font-size:11px;font-weight:800;color:#475569;border-bottom:2px solid #e2e8f0;padding-bottom:4px;margin-bottom:8px;}
+            .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+            .field{background:#f8fafc;padding:6px 10px;border-radius:6px;}
+            .field label{font-size:9px;color:#94a3b8;display:block;}
+            .field span{font-size:11px;font-weight:600;}
+            .phase-header{padding:8px 12px;display:flex;justify-content:space-between;}
+            .c1-header{background:linear-gradient(90deg,#dc2626,#ef4444);color:white;}
+            .c2-header{background:linear-gradient(90deg,#f59e0b,#d97706);color:white;}
+            .marks-grid{display:grid;padding:8px;gap:4px;background:#fafafa;}
+            .c1-marks{grid-template-columns:repeat(7,1fr);}
+            .c2-marks{grid-template-columns:repeat(6,1fr);}
+            .mark-cell{text-align:center;background:white;border-radius:4px;padding:4px;border:1px solid #e2e8f0;}
+            .mark-cell .mlabel{font-size:8px;font-weight:700;color:#94a3b8;}
+            .mark-cell .mval{font-size:12px;font-weight:900;}
+            .mark-cell .mdate{font-size:8px;color:#dc2626;margin-top:2px;}
+            .endorse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px;}
+            .endorse-cell{background:white;border-radius:6px;padding:6px;border:1px solid #e2e8f0;}
+            .endorse-cell .etitle{font-size:9px;font-weight:700;color:#1e3a8a;}
+            .badge{font-size:8px;padding:2px 4px;border-radius:4px;margin-bottom:2px;display:flex;justify-content:space-between;}
+            .badge-ok{background:#dcfce7;color:#15803d;}
+            .badge-no{background:#fee2e2;color:#dc2626;}
+            .summary-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f1f5f9;padding:8px;border-radius:6px;margin-bottom:12px;text-align:center;}
+            .footer{background:#f8fafc;padding:8px 16px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;}
+            @media print{body{background:white;}.card{margin:0;box-shadow:none;}}
+            .marks-percentage{color:#16a34a;font-weight:bold;}
+        </style></head><body>`;
+        toExport.forEach(t => {
+            let cls = detectCurrentClass(t);
+            let key = cls === 'Class-2' ? 'class2' : 'class1';
+            let r = getRank(trainees.indexOf(t), key);
+            let leaves = (t.leavesList || []).reduce((s,l) => s + l.days, 0);
+            let c1End = sortEndorsementsByDate(deserializeEndorsements(t.class1.endorsements));
+            let c2End = sortEndorsementsByDate(deserializeEndorsements(t.class2.endorsements));
+            let c1d = t.class1.examDates || {};
+            let c2d = t.class2.examDates || {};
+            html += `<div class="card"><div class="header"><div class="header-top"><div><div class="class-badge">${cls}</div></div><div><div class="rank-num">#${r.rank}</div></div></div>
+            <div class="name-row"><h2>${t.name}</h2><div>CNIC: ${t.cnic} | ${t.city} | Book: ${t.book}</div></div></div>
+            <div class="body"><div class="summary-bar"><div><div style="font-size:14px;font-weight:900;">${t.class1.avg}</div><div>C1 Avg</div></div><div><div style="font-size:14px;font-weight:900;">${t.class2.avg}</div><div>C2 Avg</div></div><div><div style="font-size:14px;font-weight:900;">${leaves}/20</div><div>Leaves</div></div></div>
+            <div class="section"><div class="section-title">Personal</div><div class="grid-3"><div class="field"><label>Father</label><span>${t.father}</span></div><div class="field"><label>Mother</label><span>${t.mother}</span></div><div class="field"><label>Matric</label><span>${t.matric}${calculatePercentage(t.matric) ? `<span class="marks-percentage"> (${calculatePercentage(t.matric)}%)</span>` : ''}</span></div><div class="field"><label>FSc</label><span>${t.fsc}${calculatePercentage(t.fsc) ? `<span class="marks-percentage"> (${calculatePercentage(t.fsc)}%)</span>` : ''}</span></div><div class="field"><label>Karachi</label><span>${t.karachiMarks}${calculatePercentage(t.karachiMarks) ? `<span class="marks-percentage"> (${calculatePercentage(t.karachiMarks)}%)</span>` : ''}</span></div><div class="field"><label>Contact</label><span>${t.contact}</span></div></div></div>
+            <div class="phase-box"><div class="phase-header c1-header"><h3>Class-1</h3><div>${t.class1.avg}</div></div><div class="marks-grid c1-marks"><div class="mark-cell"><span class="mlabel">Orient</span><span class="mval">${t.class1.orientation}</span><div class="mdate">${fmtD(c1d.orientation)}</div></div>${[0,1,2,3,4,5].map(i => `<div class="mark-cell"><span class="mlabel">Ev${i+1}</span><span class="mval">${t.class1.exams[i]}</span><div class="mdate">${fmtD(c1d[`v${i}`])}</div></div>`).join('')}</div>
+            <div class="endorse-grid">${[0,1,2,3,4,5].map(i => `<div class="endorse-cell"><div class="etitle">${teacherDesignations[i]}</div>${(c1End[i] || []).map(r => `<div class="badge ${r.checked ? 'badge-ok' : 'badge-no'}"><span>${formatDateDMY(r.date)}</span><span>${r.checked ? 'Comp' : 'Schd'}</span></div>`).join('') || '<div>No records</div>'}</div>`).join('')}</div></div>
+            <div class="phase-box"><div class="phase-header c2-header"><h3>Class-2</h3><div>${t.class2.avg}</div></div><div class="marks-grid c2-marks">${[0,1,2,3,4,5].map(i => `<div class="mark-cell"><span class="mlabel">Ev${i+1}</span><span class="mval">${t.class2.exams[i]}</span><div class="mdate">${fmtD(c2d[`v${i}`])}</div></div>`).join('')}</div>
+            <div class="endorse-grid">${[0,1,2,3,4,5].map(i => `<div class="endorse-cell"><div class="etitle">${teacherDesignations[i]}</div>${(c2End[i] || []).map(r => `<div class="badge ${r.checked ? 'badge-ok' : 'badge-no'}"><span>${formatDateDMY(r.date)}</span><span>${r.checked ? 'Comp' : 'Schd'}</span></div>`).join('') || '<div>No records</div>'}</div>`).join('')}</div></div></div>
+            <div class="footer"><span>${new Date().toLocaleString()}</span><span>TRG Portal</span><span>${t.name}</span></div></div>`;
+        });
+        html += `</body></html>`;
+        let win = window.open('', '_blank');
+        win.document.write(html);
+        win.document.close();
+        setTimeout(() => win.print(), 500);
+    };
+
+    let currentSection = 'students';
+    window.showAdminSection = function(sec) {
+        currentSection = sec;
+        document.querySelectorAll('.admin-section').forEach(s => s.style.display = 'none');
+        document.getElementById(`section-${sec}`).style.display = 'block';
+        let btns = { students: 'menu-students', add: 'menu-add', books: 'menu-books', passout: 'menu-passout', export: 'menu-export' };
+        for(let s in btns) {
+            let btn = document.getElementById(btns[s]);
+            if(btn) btn.style.background = s === sec ? '#f59e0b' : '#334155';
+        }
+        if(sec === 'passout') loadPassoutStudents();
+    };
+    window.toggleAllExport = function(checked) { document.querySelectorAll('.export-chk').forEach(c => c.checked = checked); };
+    window.logout = function() { activeUser = null; document.getElementById('login-pass').value = ''; showPage('page-login'); };
+    setTimeout(() => { if(document.getElementById('menu-students')) showAdminSection('students'); }, 100);
+</script>
+</body>
+</html>
