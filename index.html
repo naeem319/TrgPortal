@@ -188,14 +188,14 @@
             <h2 style="font-size:16px;">TEACHER CONTROL PANEL</h2>
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <button onclick="window.showChangePasswordModal()" class="btn" style="background:#475569;padding:6px 12px;font-size:12px;">ð Change Password</button>
+            <button onclick="window.showChangePasswordModal()" class="btn" style="background:#475569;padding:6px 12px;font-size:12px;">Change Password</button>
             <button onclick="logout()" class="btn btn-red">Logout</button>
         </div>
     </nav>
     <div class="wrapper">
         <!-- Books Management -->
         <div class="admin-box">
-            <h2>ð Books Management</h2>
+            <h2>Books Management</h2>
             <div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:flex-end;margin-top:10px;">
                 <div>
                     <label style="font-size:11px;font-weight:bold;color:#475569;text-transform:uppercase;display:block;margin-bottom:4px;">Book Title</label>
@@ -215,7 +215,7 @@
         </div>
 
         <div class="admin-box">
-            <h2>â1¤7 Register New Trainee (Quick Add)</h2>
+            <h2>Register New Trainee (Quick Add)</h2>
             <div class="grid-4" style="margin-top:10px;">
                 <input type="text" id="new-name" placeholder="Trainee Full Name" class="form-control" autocomplete="off">
                 <input type="text" id="new-city" placeholder="City / Location" class="form-control" autocomplete="off">
@@ -237,12 +237,12 @@
         <div class="admin-box" style="background:linear-gradient(135deg,#1e3a8a,#334155);">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                 <div>
-                    <h2 style="color:white;margin-bottom:4px;">ð Export Student Reports (PDF)</h2>
+                    <h2 style="color:white;margin-bottom:4px;">Export Student Reports (PDF)</h2>
                     <p style="color:#94a3b8;font-size:12px;">Professional PDF report with complete student data</p>
                 </div>
                 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
                     <select id="export-select" class="form-control" style="width:220px;background:white;">
-                        <option value="all">ð All Students</option>
+                        <option value="all">All Students</option>
                     </select>
                     <button onclick="window.exportPDF()" class="btn" style="background:#f59e0b;color:#1e293b;font-weight:bold;padding:10px 20px;white-space:nowrap;">â¬ï¸ Export PDF</button>
                 </div>
@@ -250,7 +250,7 @@
         </div>
 
         <div class="admin-box" style="overflow-x:auto;">
-            <h2>ð Registered Trainees & Master Control</h2>
+            <h2>Registered Trainees & Master Control</h2>
             <table>
                 <thead>
                     <tr>
@@ -899,7 +899,7 @@
         // Export dropdown update
         const expSel = document.getElementById('export-select');
         if (expSel) {
-            expSel.innerHTML = '<option value="all">ð All Students</option>';
+            expSel.innerHTML = '<option value="all">All Students</option>';
             trainees.forEach((t,i) => {
                 expSel.innerHTML += `<option value="${i}">${t.name}</option>`;
             });
@@ -1255,7 +1255,7 @@
         let rankEl = document.getElementById('t-class-rank');
         if (det === 'Consolidation') {
             rRow.style.cssText = "background:#f1f5f9;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #475569;display:flex;justify-content:space-between;align-items:center;";
-            rTitle.style.color = '#475569'; rTitle.innerText = 'ð Consolidation Period:';
+            rTitle.style.color = '#475569'; rTitle.innerText = 'Consolidation Period:';
             rankEl.className = ''; rankEl.style.cssText = "background:#e2e8f0;color:#475569;font-weight:bold;padding:4px 8px;border-radius:6px;";
             rankEl.innerText = 'Between Phases';
         } else {
