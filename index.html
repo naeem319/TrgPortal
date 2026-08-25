@@ -184,18 +184,18 @@
 <div id="page-admin" class="page">
     <nav class="nav-admin" style="flex-wrap:wrap;gap:8px;">
         <div style="display:flex;align-items:center;gap:10px;">
-            <div style="width:36px;height:36px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">ð«</div>
+            <div style="width:36px;height:36px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">ðŸ«</div>
             <h2 style="font-size:16px;">TEACHER CONTROL PANEL</h2>
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <button onclick="window.showChangePasswordModal()" class="btn" style="background:#475569;padding:6px 12px;font-size:12px;">Change Password</button>
+            <button onclick="window.showChangePasswordModal()" class="btn" style="background:#475569;padding:6px 12px;font-size:12px;">ðŸ”‘ Change Password</button>
             <button onclick="logout()" class="btn btn-red">Logout</button>
         </div>
     </nav>
     <div class="wrapper">
         <!-- Books Management -->
         <div class="admin-box">
-            <h2>Books Management</h2>
+            <h2>ðŸ“š Books Management</h2>
             <div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:10px;align-items:flex-end;margin-top:10px;">
                 <div>
                     <label style="font-size:11px;font-weight:bold;color:#475569;text-transform:uppercase;display:block;margin-bottom:4px;">Book Title</label>
@@ -215,7 +215,7 @@
         </div>
 
         <div class="admin-box">
-            <h2>Register New Trainee (Quick Add)</h2>
+            <h2>âž„1¤7 Register New Trainee (Quick Add)</h2>
             <div class="grid-4" style="margin-top:10px;">
                 <input type="text" id="new-name" placeholder="Trainee Full Name" class="form-control" autocomplete="off">
                 <input type="text" id="new-city" placeholder="City / Location" class="form-control" autocomplete="off">
@@ -237,20 +237,20 @@
         <div class="admin-box" style="background:linear-gradient(135deg,#1e3a8a,#334155);">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
                 <div>
-                    <h2 style="color:white;margin-bottom:4px;">Export Student Reports (PDF)</h2>
+                    <h2 style="color:white;margin-bottom:4px;">ðŸ“„ Export Student Reports (PDF)</h2>
                     <p style="color:#94a3b8;font-size:12px;">Professional PDF report with complete student data</p>
                 </div>
                 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
                     <select id="export-select" class="form-control" style="width:220px;background:white;">
-                        <option value="all">All Students</option>
+                        <option value="all">ðŸ“‹ All Students</option>
                     </select>
-                    <button onclick="window.exportPDF()" class="btn" style="background:#f59e0b;color:#1e293b;font-weight:bold;padding:10px 20px;white-space:nowrap;">Export PDF</button>
+                    <button onclick="window.exportPDF()" class="btn" style="background:#f59e0b;color:#1e293b;font-weight:bold;padding:10px 20px;white-space:nowrap;">â¬‡ï¸ Export PDF</button>
                 </div>
             </div>
         </div>
 
         <div class="admin-box" style="overflow-x:auto;">
-            <h2>Registered Trainees & Master Control</h2>
+            <h2>ðŸ“‹ Registered Trainees & Master Control</h2>
             <table>
                 <thead>
                     <tr>
@@ -321,7 +321,7 @@
             <div class="form-group"></div>
 
             <!-- ======= PHASE DATES ======= -->
-            <div class="modal-section-title">Phase Start & End Dates</div>
+            <div class="modal-section-title">ðŸ“… Phase Start & End Dates</div>
             <div class="form-group" style="grid-column:1/-1;">
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:#f8fafc;padding:15px;border-radius:8px;border:1px solid #e2e8f0;">
                     <div><label style="color:#dc2626;font-weight:bold;">Phase-1 Start</label><input type="date" id="edit-p1-start" class="form-control" style="border-color:#fca5a5;"></div>
@@ -431,7 +431,7 @@
 <div id="change-pass-modal" class="modal">
     <div class="modal-content" style="max-width:400px;">
         <div class="modal-header">
-            <h2 style="color:#1e293b;">ð Change Admin Password</h2>
+            <h2 style="color:#1e293b;">ðŸ”‘ Change Admin Password</h2>
             <button onclick="document.getElementById('change-pass-modal').classList.remove('active')" style="font-size:24px;background:none;border:none;cursor:pointer;color:#94a3b8;">&times;</button>
         </div>
         <div class="form-group"><label>Current Password</label><input type="password" id="cp-current" class="form-control" placeholder="Enter current password"></div>
@@ -449,7 +449,7 @@
     <nav style="padding:12px 20px;">
         <div style="display:flex;justify-content:space-between;align-items:center;width:100%;">
             <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:42px;height:42px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 6px rgba(0,0,0,0.3);">ð</div>
+                <div style="width:42px;height:42px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 2px 6px rgba(0,0,0,0.3);">ðŸŽ“</div>
                 <div>
                     <span style="color:#f59e0b;font-size:11px;font-weight:bold;display:block;text-transform:uppercase;">Student Portal</span>
                     <h2 id="t-welcome-name" style="color:white;font-size:16px;font-weight:bold;">Welcome</h2>
@@ -492,18 +492,18 @@
                     <li><span>Instructor / Stamp:</span> <span><strong id="t-teacher" style="color:#000;">--</strong> (<code id="t-stamp" style="color:#000;">--</code>)</span></li>
                     <li><span>Total Holidays Spent:</span> <strong id="t-total-leaves-badge" style="color:#000;font-size:14px;">0/20</strong></li>
                     <li id="t-rank-row" style="background:#fff5f5;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #dc2626;">
-                        <span id="t-rank-title" style="color:#dc2626;font-weight:bold;font-size:12px;">Class Rank:</span>
+                        <span id="t-rank-title" style="color:#dc2626;font-weight:bold;font-size:12px;">ðŸ† Class Rank:</span>
                         <strong id="t-class-rank" class="rank-badge-p1">--</strong>
                     </li>
                     <li style="background:#f1f5f9;padding:6px;border-radius:4px;margin-top:4px;">
-                        <span>ð Overall Combined Avg:</span> <strong id="t-overall-avg" style="color:#000;font-size:15px;font-weight:bold;">0%</strong>
+                        <span>ðŸ“ˆ Overall Combined Avg:</span> <strong id="t-overall-avg" style="color:#000;font-size:15px;font-weight:bold;">0%</strong>
                     </li>
                 </ul>
             </div>
         </div>
 
         <div class="card" style="margin-bottom:30px;overflow-x:auto;">
-            <h4>Complete Official Leaves Logs</h4>
+            <h4>ðŸ“œ Complete Official Leaves Logs</h4>
             <table>
                 <thead>
                     <tr style="background:#f8fafc;">
@@ -593,7 +593,7 @@
             if (docSnap.exists()) {
                 return docSnap.data().passwordHash === hashed;
             } else {
-                // Pehli baar â1¤7 default password set karo (user ko change kerna chahiye)
+                // Pehli baar â€„1¤7 default password set karo (user ko change kerna chahiye)
                 const defaultHash = await hashPassword("admin@123");
                 await setDoc(doc(db, "config", "admin"), { passwordHash: defaultHash });
                 return pass === "admin@123";
@@ -712,7 +712,7 @@
         document.getElementById('book-tasks-input').value = '';
         renderBooksTable();
         populateBookDropdowns();
-        showToast('ð Book added!');
+        showToast('ðŸ“š Book added!');
     };
 
     window.deleteBook = async function(id) {
@@ -747,7 +747,7 @@
             });
         } catch(err) {
             console.error('Load error:', err);
-            alert('â1¤7 Connection error: ' + err.message);
+            alert('â„1¤7 Connection error: ' + err.message);
         }
         hideLoading();
         return trainees;
@@ -757,7 +757,7 @@
     function flattenForFirestore(t) {
         const data = JSON.parse(JSON.stringify(t));
         delete data._id;
-        // Endorsements nested array hain â1¤7 JSON string mein convert karo
+        // Endorsements nested array hain â€„1¤7 JSON string mein convert karo
         if (data.phase1 && data.phase1.endorsements) {
             data.phase1.endorsements = JSON.stringify(data.phase1.endorsements);
         }
@@ -784,10 +784,10 @@
         t._id = id;
         const data = flattenForFirestore(t);
         setDoc(doc(db, COLL, id), data).then(() => {
-            showToast('â1¤7 Saved!');
+            showToast('âœ„1¤7 Saved!');
         }).catch(err => {
             console.error('Save error:', err);
-            showToast('â ï¸ Save failed: ' + err.message, true);
+            showToast('âš ï¸ Save failed: ' + err.message, true);
         });
     }
 
@@ -831,7 +831,7 @@
         if (p1S && p1E && today >= p1S && today <= p1E) return "Phase-1";
         if (p2S && p2E && today >= p2S && today <= p2E) return "Phase-2";
 
-        // Koi phase match nahi â1¤7 consolidation period
+        // Koi phase match nahi â€„1¤7 consolidation period
         if (p1S && p2E && today > p1S) return "Consolidation";
         return t.activePhase || "Phase-1";
     }
@@ -859,7 +859,7 @@
                 await loadBooks();
                 renderAdminTable();
                 showPage('page-admin');
-            } else { alert('â1¤7 Incorrect Teacher Password!'); }
+            } else { alert('â„1¤7 Incorrect Teacher Password!'); }
         } else {
             await loadTrainees();
             const passHash = await hashPassword(pass);
@@ -871,7 +871,7 @@
                 activeUserIndex = idx;
                 loadTraineeDashboard(idx);
                 showPage('page-trainee');
-            } else { alert('â1¤7 Incorrect Student Password!'); }
+            } else { alert('â„1¤7 Incorrect Student Password!'); }
         }
     };
 
@@ -879,16 +879,16 @@
     window.handleForgotPassword = async function() {
         const code = document.getElementById('forgot-code').value;
         const newPass = document.getElementById('forgot-new-pass').value;
-        if (!code || !newPass) { alert('â1¤7 Both fields required.'); return; }
+        if (!code || !newPass) { alert('â„1¤7 Both fields required.'); return; }
         await loadTrainees();
         let idx = trainees.findIndex(t => t.resetCode === code);
-        if (idx === -1) { alert('â1¤7 Invalid Security Code!'); return; }
+        if (idx === -1) { alert('â„1¤7 Invalid Security Code!'); return; }
         const newHash = await hashPassword(newPass);
-        if (trainees.some((t, i) => i !== idx && t.passwordHash === newHash)) { alert('â1¤7 Password already taken!'); return; }
+        if (trainees.some((t, i) => i !== idx && t.passwordHash === newHash)) { alert('â„1¤7 Password already taken!'); return; }
         trainees[idx].passwordHash = newHash;
         trainees[idx].password = ""; // plain text clear karo
         saveTrainee(trainees[idx]);
-        alert('â1¤7 Password updated!');
+        alert('âœ„1¤7 Password updated!');
         showPage('page-login');
     };
 
@@ -899,7 +899,7 @@
         // Export dropdown update
         const expSel = document.getElementById('export-select');
         if (expSel) {
-            expSel.innerHTML = '<option value="all">All Students</option>';
+            expSel.innerHTML = '<option value="all">ðŸ“‹ All Students</option>';
             trainees.forEach((t,i) => {
                 expSel.innerHTML += `<option value="${i}">${t.name}</option>`;
             });
@@ -920,7 +920,7 @@
                     <td>${t.city}</td>
                     <td style="font-size:12px;color:#555;">${t.teacher} (${t.stampNo})</td>
                     <td style="color:#b45309;font-weight:bold;font-family:monospace;">${t.resetCode}</td>
-                    <td><button onclick="window.openEditModal(${index})" class="btn btn-orange">Edit All Records</button></td>
+                    <td><button onclick="window.openEditModal(${index})" class="btn btn-orange">ðŸ“ Edit All Records</button></td>
                     <td><button onclick="window.removeTrainee(${index})" style="color:red;background:none;border:none;cursor:pointer;font-weight:bold;font-size:12px;">Delete</button></td>
                 </tr>`;
         });
@@ -940,8 +940,8 @@
         const selBookTasks = parseInt(selBookEl.options[selBookEl.selectedIndex]?.dataset?.tasks) || 0;
         if (!name || !pass || !code) { alert('Name, Password, and Reset Code are mandatory!'); return; }
         const passHash = await hashPassword(pass);
-        if (trainees.some(t => t.passwordHash === passHash || t.password === pass)) { alert('â1¤7 Choose a unique password!'); return; }
-        if (trainees.some(t => t.resetCode === code)) { alert('â1¤7 Choose a unique reset code!'); return; }
+        if (trainees.some(t => t.passwordHash === passHash || t.password === pass)) { alert('â„1¤7 Choose a unique password!'); return; }
+        if (trainees.some(t => t.resetCode === code)) { alert('â„1¤7 Choose a unique reset code!'); return; }
         let ce = () => [[],[],[],[],[],[]];
         let newT = {
             name, cnic:"Not Set", city:city||"N/A", address:"Not Set", password:"", passwordHash:passHash, resetCode:code, activePhase:aPhase,
@@ -954,7 +954,7 @@
         };
         saveTrainee(newT);
         trainees.push(newT);
-        alert('ð Student Added!');
+        alert('ðŸŽ‰ Student Added!');
         renderAdminTable();
         ['new-name','new-city','new-teacher','new-stamp','new-pass','new-code'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('new-book-select').value = '';
@@ -1008,7 +1008,7 @@
             let recs = buf[ti]||[];
             let rHtml = recs.length ? recs.map((r,ri) => `
                 <div class="end-record-item">
-                    <span>${r.date} (${r.checked?'â1¤7':'â1¤7'})</span>
+                    <span>ðŸ“… ${r.date} (${r.checked?'âœ„1¤7':'â„1¤7'})</span>
                     <span style="color:red;cursor:pointer;" onclick="window.removeEndorsementEntry(${phaseNum},${ti},${ri})">&times;</span>
                 </div>`).join('') : '<div style="color:#aaa;font-size:10px;padding:4px;">No records</div>';
             container.innerHTML += `
@@ -1125,13 +1125,13 @@
         // Agar password blank ho to change mat karo
         if (inputPass !== '') {
             const inputHash = await hashPassword(inputPass);
-            if (trainees.some((ts,i) => i!==currentEditingIndex && (ts.passwordHash===inputHash || ts.password===inputPass))) { alert('â1¤7 Password already taken!'); return; }
+            if (trainees.some((ts,i) => i!==currentEditingIndex && (ts.passwordHash===inputHash || ts.password===inputPass))) { alert('â„1¤7 Password already taken!'); return; }
             trainees[currentEditingIndex].passwordHash = inputHash;
             trainees[currentEditingIndex].password = "";
         }
 
         let newCode = document.getElementById('edit-reset-code').value.trim();
-        if (newCode && trainees.some((ts,i) => i!==currentEditingIndex && ts.resetCode===newCode)) { alert('â1¤7 Reset Code already used!'); return; }
+        if (newCode && trainees.some((ts,i) => i!==currentEditingIndex && ts.resetCode===newCode)) { alert('â„1¤7 Reset Code already used!'); return; }
 
         t.name     = document.getElementById('edit-name').value;
         t.cnic     = document.getElementById('edit-cnic').value;
@@ -1204,7 +1204,7 @@
         t.phase2.endorsements = JSON.parse(JSON.stringify(tempP2Endorsements));
 
         saveTrainee(t);
-        alert('â1¤7 Saved!');
+        alert('âœ„1¤7 Saved!');
         window.closeEditModal();
         renderAdminTable();
     };
@@ -1255,7 +1255,7 @@
         let rankEl = document.getElementById('t-class-rank');
         if (det === 'Consolidation') {
             rRow.style.cssText = "background:#f1f5f9;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #475569;display:flex;justify-content:space-between;align-items:center;";
-            rTitle.style.color = '#475569'; rTitle.innerText = 'Consolidation Period:';
+            rTitle.style.color = '#475569'; rTitle.innerText = 'ðŸ“‹ Consolidation Period:';
             rankEl.className = ''; rankEl.style.cssText = "background:#e2e8f0;color:#475569;font-weight:bold;padding:4px 8px;border-radius:6px;";
             rankEl.innerText = 'Between Phases';
         } else {
@@ -1263,11 +1263,11 @@
             rankEl.innerText = rl;
             if (det === 'Phase-1') {
                 rRow.style.cssText = "background:#fff5f5;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #dc2626;display:flex;justify-content:space-between;align-items:center;";
-                rTitle.style.color = '#dc2626'; rTitle.innerText = 'Phase-1 Class Rank:';
+                rTitle.style.color = '#dc2626'; rTitle.innerText = 'ðŸ† Phase-1 Class Rank:';
                 rankEl.className = 'rank-badge-p1'; rankEl.style.cssText = '';
             } else {
                 rRow.style.cssText = "background:#fffbeb;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #b45309;display:flex;justify-content:space-between;align-items:center;";
-                rTitle.style.color = '#b45309'; rTitle.innerText = 'Phase-2 Class Rank:';
+                rTitle.style.color = '#b45309'; rTitle.innerText = 'ðŸ† Phase-2 Class Rank:';
                 rankEl.className = 'rank-badge-p2'; rankEl.style.cssText = '';
             }
         }
@@ -1306,8 +1306,8 @@
         document.getElementById('p1-avg').innerText   = activeUser.phase1.avg;
         const p1i = document.getElementById('p1-date-info');
         p1i.innerHTML = (activeUser.phase1StartDate && activeUser.phase1EndDate)
-            ? `${formatDisplayDate(activeUser.phase1StartDate)} &nbsp;â1¤7&nbsp; ${formatDisplayDate(activeUser.phase1EndDate)}`
-            : 'Period: Not Set';
+            ? `ðŸ“… ${formatDisplayDate(activeUser.phase1StartDate)} &nbsp;â€„1¤7&nbsp; ${formatDisplayDate(activeUser.phase1EndDate)}`
+            : 'ðŸ“… Period: Not Set';
 
         const p1Dates = activeUser.phase1.examDates || {};
         const fmtD = d => d ? new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '';
@@ -1321,7 +1321,7 @@
         let ed1 = '';
         for (let i=0;i<6;i++) {
             let recs = activeUser.phase1.endorsements && activeUser.phase1.endorsements[i] ? activeUser.phase1.endorsements[i] : [];
-            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
+            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>ðŸ“… ${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
             ed1 += `<div class="endorse-item-new"><span class="title">${teacherDesignations[i]}</span><div class="badge-container">${bm}</div></div>`;
         }
         document.getElementById('p1-end').innerHTML = ed1;
@@ -1332,8 +1332,8 @@
         document.getElementById('p2-avg').innerText   = activeUser.phase2.avg;
         const p2i = document.getElementById('p2-date-info');
         p2i.innerHTML = (activeUser.phase2StartDate && activeUser.phase2EndDate)
-            ? `${formatDisplayDate(activeUser.phase2StartDate)} &nbsp;â1¤7&nbsp; ${formatDisplayDate(activeUser.phase2EndDate)}`
-            : 'Period: Not Set';
+            ? `ðŸ“… ${formatDisplayDate(activeUser.phase2StartDate)} &nbsp;â€„1¤7&nbsp; ${formatDisplayDate(activeUser.phase2EndDate)}`
+            : 'ðŸ“… Period: Not Set';
 
         const p2Dates = activeUser.phase2.examDates || {};
         let ex2 = '';
@@ -1346,7 +1346,7 @@
         let ed2 = '';
         for (let i=0;i<6;i++) {
             let recs = activeUser.phase2.endorsements && activeUser.phase2.endorsements[i] ? activeUser.phase2.endorsements[i] : [];
-            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
+            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>ðŸ“… ${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
             ed2 += `<div class="endorse-item-new"><span class="title">${teacherDesignations[i]}</span><div class="badge-container">${bm}</div></div>`;
         }
         document.getElementById('p2-end').innerHTML = ed2;
@@ -1365,18 +1365,18 @@
         const cur = document.getElementById('cp-current').value;
         const nw  = document.getElementById('cp-new').value;
         const cnf = document.getElementById('cp-confirm').value;
-        if (!cur || !nw || !cnf) { alert('â1¤7 All fields required!'); return; }
-        if (nw !== cnf) { alert('â1¤7 New passwords do not match!'); return; }
-        if (nw.length < 6) { alert('â1¤7 Password must be at least 6 characters!'); return; }
+        if (!cur || !nw || !cnf) { alert('â„1¤7 All fields required!'); return; }
+        if (nw !== cnf) { alert('â„1¤7 New passwords do not match!'); return; }
+        if (nw.length < 6) { alert('â„1¤7 Password must be at least 6 characters!'); return; }
         showLoading('Verifying...');
         const ok = await checkAdminPassword(cur);
         hideLoading();
-        if (!ok) { alert('â1¤7 Current password is incorrect!'); return; }
+        if (!ok) { alert('â„1¤7 Current password is incorrect!'); return; }
         showLoading('Updating...');
         await updateAdminPassword(nw);
         hideLoading();
         document.getElementById('change-pass-modal').classList.remove('active');
-        alert('â1¤7 Admin password updated successfully!');
+        alert('âœ„1¤7 Admin password updated successfully!');
     };
 
     // ---- PDF Export ----
@@ -1507,8 +1507,8 @@
                         <div class="field"><label>Instructor</label><span>${t.teacher||'N/A'}</span></div>
                         <div class="field"><label>Stamp No</label><span>${t.stampNo||'N/A'}</span></div>
                         <div class="field"><label>Task Progress</label><span>${t.subTopics||0} / ${t.mainTopics||0} Tasks</span></div>
-                        <div class="field"><label>Phase-1 Period</label><span>${fmtD(t.phase1StartDate)} â1¤7 ${fmtD(t.phase1EndDate)}</span></div>
-                        <div class="field"><label>Phase-2 Period</label><span>${fmtD(t.phase2StartDate)} â1¤7 ${fmtD(t.phase2EndDate)}</span></div>
+                        <div class="field"><label>Phase-1 Period</label><span>${fmtD(t.phase1StartDate)} â†„1¤7 ${fmtD(t.phase1EndDate)}</span></div>
+                        <div class="field"><label>Phase-2 Period</label><span>${fmtD(t.phase2StartDate)} â†„1¤7 ${fmtD(t.phase2EndDate)}</span></div>
                     </div>
                 </div>
 
