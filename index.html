@@ -244,7 +244,7 @@
                     <select id="export-select" class="form-control" style="width:220px;background:white;">
                         <option value="all">All Students</option>
                     </select>
-                    <button onclick="window.exportPDF()" class="btn" style="background:#f59e0b;color:#1e293b;font-weight:bold;padding:10px 20px;white-space:nowrap;">â¬ï¸ Export PDF</button>
+                    <button onclick="window.exportPDF()" class="btn" style="background:#f59e0b;color:#1e293b;font-weight:bold;padding:10px 20px;white-space:nowrap;">Export PDF</button>
                 </div>
             </div>
         </div>
@@ -321,7 +321,7 @@
             <div class="form-group"></div>
 
             <!-- ======= PHASE DATES ======= -->
-            <div class="modal-section-title">ð Phase Start & End Dates</div>
+            <div class="modal-section-title">Phase Start & End Dates</div>
             <div class="form-group" style="grid-column:1/-1;">
                 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;background:#f8fafc;padding:15px;border-radius:8px;border:1px solid #e2e8f0;">
                     <div><label style="color:#dc2626;font-weight:bold;">Phase-1 Start</label><input type="date" id="edit-p1-start" class="form-control" style="border-color:#fca5a5;"></div>
@@ -492,7 +492,7 @@
                     <li><span>Instructor / Stamp:</span> <span><strong id="t-teacher" style="color:#000;">--</strong> (<code id="t-stamp" style="color:#000;">--</code>)</span></li>
                     <li><span>Total Holidays Spent:</span> <strong id="t-total-leaves-badge" style="color:#000;font-size:14px;">0/20</strong></li>
                     <li id="t-rank-row" style="background:#fff5f5;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #dc2626;">
-                        <span id="t-rank-title" style="color:#dc2626;font-weight:bold;font-size:12px;">ð Class Rank:</span>
+                        <span id="t-rank-title" style="color:#dc2626;font-weight:bold;font-size:12px;">Class Rank:</span>
                         <strong id="t-class-rank" class="rank-badge-p1">--</strong>
                     </li>
                     <li style="background:#f1f5f9;padding:6px;border-radius:4px;margin-top:4px;">
@@ -503,7 +503,7 @@
         </div>
 
         <div class="card" style="margin-bottom:30px;overflow-x:auto;">
-            <h4>ð Complete Official Leaves Logs</h4>
+            <h4>Complete Official Leaves Logs</h4>
             <table>
                 <thead>
                     <tr style="background:#f8fafc;">
@@ -920,7 +920,7 @@
                     <td>${t.city}</td>
                     <td style="font-size:12px;color:#555;">${t.teacher} (${t.stampNo})</td>
                     <td style="color:#b45309;font-weight:bold;font-family:monospace;">${t.resetCode}</td>
-                    <td><button onclick="window.openEditModal(${index})" class="btn btn-orange">ð Edit All Records</button></td>
+                    <td><button onclick="window.openEditModal(${index})" class="btn btn-orange">Edit All Records</button></td>
                     <td><button onclick="window.removeTrainee(${index})" style="color:red;background:none;border:none;cursor:pointer;font-weight:bold;font-size:12px;">Delete</button></td>
                 </tr>`;
         });
@@ -1008,7 +1008,7 @@
             let recs = buf[ti]||[];
             let rHtml = recs.length ? recs.map((r,ri) => `
                 <div class="end-record-item">
-                    <span>ð ${r.date} (${r.checked?'â1¤7':'â1¤7'})</span>
+                    <span>${r.date} (${r.checked?'â1¤7':'â1¤7'})</span>
                     <span style="color:red;cursor:pointer;" onclick="window.removeEndorsementEntry(${phaseNum},${ti},${ri})">&times;</span>
                 </div>`).join('') : '<div style="color:#aaa;font-size:10px;padding:4px;">No records</div>';
             container.innerHTML += `
@@ -1263,11 +1263,11 @@
             rankEl.innerText = rl;
             if (det === 'Phase-1') {
                 rRow.style.cssText = "background:#fff5f5;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #dc2626;display:flex;justify-content:space-between;align-items:center;";
-                rTitle.style.color = '#dc2626'; rTitle.innerText = 'ð Phase-1 Class Rank:';
+                rTitle.style.color = '#dc2626'; rTitle.innerText = 'Phase-1 Class Rank:';
                 rankEl.className = 'rank-badge-p1'; rankEl.style.cssText = '';
             } else {
                 rRow.style.cssText = "background:#fffbeb;padding:6px;border-radius:4px;margin-top:4px;border-left:4px solid #b45309;display:flex;justify-content:space-between;align-items:center;";
-                rTitle.style.color = '#b45309'; rTitle.innerText = 'ð Phase-2 Class Rank:';
+                rTitle.style.color = '#b45309'; rTitle.innerText = 'Phase-2 Class Rank:';
                 rankEl.className = 'rank-badge-p2'; rankEl.style.cssText = '';
             }
         }
@@ -1306,8 +1306,8 @@
         document.getElementById('p1-avg').innerText   = activeUser.phase1.avg;
         const p1i = document.getElementById('p1-date-info');
         p1i.innerHTML = (activeUser.phase1StartDate && activeUser.phase1EndDate)
-            ? `ð ${formatDisplayDate(activeUser.phase1StartDate)} &nbsp;â1¤7&nbsp; ${formatDisplayDate(activeUser.phase1EndDate)}`
-            : 'ð Period: Not Set';
+            ? `${formatDisplayDate(activeUser.phase1StartDate)} &nbsp;â1¤7&nbsp; ${formatDisplayDate(activeUser.phase1EndDate)}`
+            : 'Period: Not Set';
 
         const p1Dates = activeUser.phase1.examDates || {};
         const fmtD = d => d ? new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '';
@@ -1321,7 +1321,7 @@
         let ed1 = '';
         for (let i=0;i<6;i++) {
             let recs = activeUser.phase1.endorsements && activeUser.phase1.endorsements[i] ? activeUser.phase1.endorsements[i] : [];
-            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>ð ${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
+            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
             ed1 += `<div class="endorse-item-new"><span class="title">${teacherDesignations[i]}</span><div class="badge-container">${bm}</div></div>`;
         }
         document.getElementById('p1-end').innerHTML = ed1;
@@ -1332,8 +1332,8 @@
         document.getElementById('p2-avg').innerText   = activeUser.phase2.avg;
         const p2i = document.getElementById('p2-date-info');
         p2i.innerHTML = (activeUser.phase2StartDate && activeUser.phase2EndDate)
-            ? `ð ${formatDisplayDate(activeUser.phase2StartDate)} &nbsp;â1¤7&nbsp; ${formatDisplayDate(activeUser.phase2EndDate)}`
-            : 'ð Period: Not Set';
+            ? `${formatDisplayDate(activeUser.phase2StartDate)} &nbsp;â1¤7&nbsp; ${formatDisplayDate(activeUser.phase2EndDate)}`
+            : 'Period: Not Set';
 
         const p2Dates = activeUser.phase2.examDates || {};
         let ex2 = '';
@@ -1346,7 +1346,7 @@
         let ed2 = '';
         for (let i=0;i<6;i++) {
             let recs = activeUser.phase2.endorsements && activeUser.phase2.endorsements[i] ? activeUser.phase2.endorsements[i] : [];
-            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>ð ${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
+            let bm = recs.length ? recs.map(r => `<div class="status-badge-inline ${r.checked?'status-complete':'status-scheduled'}"><span>${r.date}</span><span>[${r.checked?'Compt':'Sched'}]</span></div>`).join('') : '<span style="color:#94a3b8;font-size:11px;font-style:italic;">No records</span>';
             ed2 += `<div class="endorse-item-new"><span class="title">${teacherDesignations[i]}</span><div class="badge-container">${bm}</div></div>`;
         }
         document.getElementById('p2-end').innerHTML = ed2;
