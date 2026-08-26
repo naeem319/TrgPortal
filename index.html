@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP-V05</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Advanced Training School Portal</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
         body { background: #f0f2f5; color: #333; padding: 0; }
@@ -29,7 +29,7 @@
         .btn-teal { background: #0d9488; } .btn-teal:hover { background: #0f766e; }
         .btn-pink { background: #db2777; } .btn-pink:hover { background: #be185d; }
         .btn-danger-dark { background: #991b1b; } .btn-danger-dark:hover { background: #7f1d1d; }
-        .btn-attractive { background: #8b5cf6; color: white; padding: 10px 24px; font-size: 15px; } .btn-attractive:hover { background: #7c3aed; transform: scale(1.02); }
+        .btn-attractive { background: #8b5cf6; color: white; padding: 12px 24px; font-size: 16px; border-radius: 8px; } .btn-attractive:hover { background: #7c3aed; transform: scale(1.02); }
         nav { background: #1e3a8a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 8px; }
         .nav-admin { background: #334155; }
         .wrapper { max-width: 1300px; margin: 30px auto; padding: 0 20px; }
@@ -95,12 +95,10 @@
         .spinner { width:48px; height:48px; border:5px solid #ffffff44; border-top-color:#fff; border-radius:50%; animation:spin 0.8s linear infinite; }
         @keyframes spin { to { transform:rotate(360deg); } }
         #loading-overlay p { color:white; font-size:16px; font-weight:bold; }
-        
         .progress-container { width: 100%; max-width: 400px; margin: 10px 0; }
         .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: #f59e0b; width: 0%; transition: width 0.3s ease; border-radius: 4px; }
         .progress-text { color: white; font-size: 14px; font-weight: bold; margin-top: 5px; text-align: center; }
-        
         .quiz-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
         .quiz-stat-card { background: linear-gradient(135deg, #f8fafc, #e2e8f0); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; }
         .quiz-stat-card .number { font-size: 28px; font-weight: 900; color: #1e3a8a; }
@@ -115,29 +113,18 @@
         .badge-medium { background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; }
         .badge-hard { background: #fee2e2; color: #dc2626; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; }
         .question-block { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 4px solid #2563eb; }
-        .question-block .q-text { font-weight: 600; color: #1e293b; }
+        .question-block .q-text { font-weight: 600; color: #1e293b; font-size: 15px; line-height: 1.6; }
         .question-block .options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
-        .question-block .options label { display: flex; align-items: center; gap: 8px; background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0; cursor: pointer; font-size: 13px; transition: 0.15s; }
+        .question-block .options label { display: flex; align-items: center; gap: 8px; background: white; padding: 10px 14px; border-radius: 8px; border: 2px solid #e2e8f0; cursor: pointer; font-size: 14px; transition: 0.15s; min-height: 48px; }
         .question-block .options label:hover { border-color: #2563eb; background: #eff6ff; }
-        .question-block .options input[type="radio"] { width: 16px; height: 16px; accent-color: #2563eb; }
+        .question-block .options label:has(input:checked) { border-color: #2563eb; background: #dbeafe; }
+        .question-block .options input[type="radio"] { width: 20px; height: 20px; accent-color: #2563eb; flex-shrink: 0; }
         .qb-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
         .qb-filter-bar select, .qb-filter-bar input { padding: 6px 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; }
         .qb-filter-bar .search-box { flex: 1; min-width: 200px; }
         .filter-label { font-size: 11px; font-weight: bold; color: #475569; text-transform: uppercase; display: block; margin-bottom: 2px; }
         .subject-tag { display: inline-block; background: #dbeafe; color: #1d4ed8; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
         .chapter-tag { display: inline-block; background: #fce7f3; color: #be185d; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
-        .quiz-config-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 10px; align-items: end; background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        .quiz-config-row .form-group { margin-bottom: 0; }
-        .import-divider { border: none; border-top: 2px dashed #d1d5db; margin: 25px 0 20px 0; }
-        .import-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-        .import-header h3 { color: #16a34a; font-size: 16px; }
-        .import-header .badge-new { background: #16a34a; color: white; font-size: 10px; padding: 2px 10px; border-radius: 12px; font-weight: bold; }
-        .import-box { background: #f0fdf4; border: 2px dashed #16a34a; padding: 18px 20px; border-radius: 8px; }
-        .import-box .file-input-wrapper { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .import-box .file-input-wrapper input[type="file"] { flex: 1; min-width: 200px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; background: white; }
-        .import-box .hint { margin-top: 10px; font-size: 11px; color: #64748b; padding: 8px 12px; background: white; border-radius: 6px; border: 1px solid #e2e8f0; }
-        .template-link { color: #2563eb; font-weight: bold; cursor: pointer; text-decoration: underline; }
-        .template-link:hover { color: #1d4ed8; }
         .sidebar { width: 60px; background: #1e293b; display: flex; flex-direction: column; align-items: center; padding: 12px 0; gap: 6px; flex-shrink: 0; }
         .sidebar-btn { width: 44px; height: 44px; background: #334155; border: none; border-radius: 10px; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; transition: 0.2s; color: white; }
         .sidebar-btn:hover { background: #f59e0b; }
@@ -204,7 +191,7 @@
         .question-navigation .q-counter { font-size: 15px; font-weight: bold; color: #1e293b; }
         .question-navigation .nav-buttons { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .question-dots { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; justify-content: center; }
-        .question-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; cursor: pointer; border: 2px solid #e2e8f0; background: white; color: #94a3b8; transition: 0.2s; }
+        .question-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; cursor: pointer; border: 2px solid #e2e8f0; background: white; color: #94a3b8; transition: 0.2s; }
         .question-dot:hover { transform: scale(1.1); }
         .question-dot.current { background: #f59e0b; color: white; border-color: #f59e0b; }
         .question-dot.attempted { background: #16a34a; color: white; border-color: #16a34a; }
@@ -212,7 +199,7 @@
         .question-dot.unattempted:hover { border-color: #2563eb; }
         .attempt-bottom-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 2px solid #e2e8f0; flex-wrap: wrap; gap: 10px; }
         .attempt-bottom-bar .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-        .attempt-bottom-bar .submit-btn { padding: 10px 30px; }
+        .attempt-bottom-bar .submit-btn { padding: 12px 30px; font-size: 16px; }
         .slideable-table-heading { background: #f8fafc; padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; font-weight: bold; color: #1e3a8a; border-left: 4px solid #7c3aed; }
         .chapter-badge { background: #f3e8ff; color: #7c3aed; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
         .chapter-manage-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-top: 10px; }
@@ -220,6 +207,7 @@
         .bulk-delete-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 8px 12px; background: #fef2f2; border-radius: 6px; border: 1px solid #fecaca; margin-bottom: 10px; }
         .bulk-delete-bar .info { font-size: 12px; color: #dc2626; font-weight: bold; }
         .selected-count { background: #dc2626; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .available-questions-heading { background: #e0f2fe; padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; font-weight: bold; color: #0369a1; border-left: 4px solid #0ea5e9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
         @media (max-width: 992px) {
             .quiz-config-grid { grid-template-columns: 1fr 1fr; }
             .quiz-datetime-grid { grid-template-columns: 1fr 1fr; }
@@ -240,6 +228,8 @@
             .import-box .file-input-wrapper input[type="file"] { width: 100%; }
             .import-box .file-input-wrapper button { width: 100%; }
             .question-block .options { grid-template-columns: 1fr; }
+            .question-block .options label { padding: 12px 14px; font-size: 15px; min-height: 52px; }
+            .question-block .q-text { font-size: 16px; }
             .exams-grid { grid-template-columns: repeat(4, 1fr) !important; }
             .exams-grid-p2 { grid-template-columns: repeat(3, 1fr) !important; }
             .endorse-grid-new { grid-template-columns: 1fr 1fr; }
@@ -266,13 +256,32 @@
             .filter-row .filter-item { width: 100%; }
             .filter-row .filter-actions { width: 100%; }
             .pattern-popup .pattern-content { margin: 10px; padding: 15px; }
-            .question-navigation { flex-direction: column; }
-            .question-dots { justify-content: center; }
-            .attempt-bottom-bar { flex-direction: column; align-items: stretch; }
+            .question-navigation { flex-direction: column; gap: 12px; }
+            .question-navigation .nav-buttons { width: 100%; justify-content: center; }
+            .question-dots { justify-content: center; gap: 8px; }
+            .question-dot { width: 36px; height: 36px; font-size: 13px; }
+            .attempt-bottom-bar { flex-direction: column; align-items: stretch; gap: 12px; }
             .attempt-bottom-bar .nav-buttons { justify-content: center; }
-            .attempt-bottom-bar .submit-btn { width: 100%; text-align: center; }
+            .attempt-bottom-bar .submit-btn { width: 100%; text-align: center; padding: 14px; font-size: 17px; }
             .chapter-manage-grid { grid-template-columns: 1fr; }
             .bulk-delete-bar { flex-direction: column; align-items: stretch; text-align: center; }
+            .question-dots { gap: 10px; }
+            #attempt-questions .question-block { padding: 12px; }
+            #attempt-questions .options { gap: 10px; }
+            .btn-attractive { padding: 14px 20px; font-size: 15px; min-height: 48px; }
+            .student-quiz-popup .popup-content { padding: 15px; }
+            .quiz-table-wrap table { font-size: 12px; }
+            .quiz-table-wrap table th, .quiz-table-wrap table td { padding: 8px 6px; }
+            #attempt-timer { font-size: 20px !important; }
+            #attempt-progress { font-size: 15px !important; }
+            #quiz-attempt-modal .modal-content { padding: 12px; margin: 5px; border-radius: 8px; }
+            .question-block { padding: 12px !important; }
+            .question-block .options { grid-template-columns: 1fr !important; }
+            .question-block .options label { padding: 14px !important; font-size: 15px !important; min-height: 50px !important; border-radius: 10px !important; }
+            .question-block .options input[type="radio"] { width: 22px !important; height: 22px !important; }
+            .student-quiz-popup .popup-content { padding: 12px !important; margin: 5px !important; border-radius: 8px !important; }
+            .student-quiz-popup .popup-header h2 { font-size: 18px !important; }
+            .student-tab-btn { padding: 10px 14px !important; font-size: 14px !important; }
         }
         @media (max-width: 480px) {
             .sidebar { width: 45px; }
@@ -288,8 +297,17 @@
             nav h2 { font-size: 13px; }
             .summary-grid-p1, .summary-grid-p2 { grid-template-columns: repeat(3,1fr); font-size: 11px; }
             .student-nav-btn { font-size: 11px; padding: 6px 10px; }
-            .question-dot { width: 24px; height: 24px; font-size: 10px; }
+            .question-dot { width: 32px; height: 32px; font-size: 11px; }
+            .question-block .options label { padding: 10px 12px; font-size: 14px; min-height: 46px; }
+            .question-block .q-text { font-size: 15px; }
+            .btn-attractive { padding: 12px 16px; font-size: 14px; min-height: 44px; }
+            .attempt-bottom-bar .submit-btn { padding: 12px; font-size: 16px; }
+            #attempt-timer { font-size: 18px !important; }
+            #attempt-progress { font-size: 13px !important; }
+            .question-dots { gap: 6px; }
+            #quiz-attempt-modal .modal-content { padding: 10px; }
         }
+        #quiz-attempt-modal .modal-content { max-width: 100%; margin: 10px; padding: 15px; border-radius: 12px; }
     </style>
 </head>
 <body>
@@ -306,6 +324,7 @@
 </div>
 <div id="toast"></div>
 
+<!-- LOGIN PAGE -->
 <div id="page-login" class="page active">
     <div class="login-container">
         <div class="login-card">
@@ -329,6 +348,7 @@
     </div>
 </div>
 
+<!-- FORGOT PASSWORD PAGE -->
 <div id="page-forgot" class="page">
     <div class="login-container">
         <div class="login-card">
@@ -349,6 +369,7 @@
     </div>
 </div>
 
+<!-- TEACHER DASHBOARD -->
 <div id="page-admin" class="page">
     <nav class="nav-admin" style="flex-wrap:wrap;gap:8px;">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -657,6 +678,7 @@
     </div>
 </div>
 
+<!-- PATTERN POPUP -->
 <div id="pattern-popup" class="pattern-popup">
     <div class="pattern-content">
         <div class="pattern-header">
@@ -695,6 +717,7 @@
     </div>
 </div>
 
+<!-- MODALS -->
 <div id="subject-modal" class="modal">
     <div class="modal-content" style="max-width:450px;">
         <div class="modal-header"><h2 style="color:#1e293b;" id="subject-modal-title">Add Subject</h2><button onclick="document.getElementById('subject-modal').classList.remove('active')" style="font-size:24px;background:none;border:none;cursor:pointer;color:#94a3b8;">&times;</button></div>
@@ -744,6 +767,7 @@
     </div>
 </div>
 
+<!-- QUIZ CREATOR MODAL -->
 <div id="quiz-creator-modal" class="modal">
     <div class="modal-content" style="max-width:950px;">
         <div class="modal-header"><h2 style="color:#1e293b;" id="quiz-modal-title">📝 Create Quiz</h2><button onclick="closeQuizModal()" style="font-size:24px;background:none;border:none;cursor:pointer;color:#94a3b8;">&times;</button></div>
@@ -817,7 +841,11 @@
             </div>
         </div>
 
-        <div style="margin-bottom:10px;font-weight:bold;color:#1e3a8a;font-size:13px;">📋 Available Questions (Select from below)</div>
+        <!-- Available Questions Heading -->
+        <div class="available-questions-heading">
+            <span>📋 Available Questions (Select from below)</span>
+            <span style="font-size:12px;color:#64748b;font-weight:normal;">Total: <span id="available-q-count">0</span> questions</span>
+        </div>
         <div style="max-height:200px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px;padding:10px;background:#fafafa;margin-bottom:15px;" id="quiz-q-selector"></div>
 
         <div class="slideable-table-heading">📋 Selected Questions List</div>
@@ -849,6 +877,7 @@
     </div>
 </div>
 
+<!-- QUIZ ATTEMPT MODAL - Improved for Mobile -->
 <div id="quiz-attempt-modal" class="modal">
     <div class="modal-content" style="max-width:850px;">
         <div class="modal-header"><h2 style="color:#1e293b;" id="attempt-quiz-title">Quiz</h2><button onclick="closeAttemptModal()" style="font-size:24px;background:none;border:none;cursor:pointer;color:#94a3b8;">&times;</button></div>
@@ -873,6 +902,7 @@
     </div>
 </div>
 
+<!-- QUIZ RESULT MODAL -->
 <div id="quiz-result-modal" class="modal">
     <div class="modal-content" style="max-width:700px;">
         <div class="modal-header"><h2 style="color:#1e293b;">📊 Quiz Results</h2><button onclick="document.getElementById('quiz-result-modal').classList.remove('active')" style="font-size:24px;background:none;border:none;cursor:pointer;color:#94a3b8;">&times;</button></div>
@@ -894,6 +924,7 @@
     </div>
 </div>
 
+<!-- EDIT MODAL -->
 <div id="edit-modal" class="modal">
     <div class="modal-content">
         <div class="modal-header"><h2 id="edit-modal-title" style="color:#1e293b;">Edit Trainee</h2><button onclick="closeEditModal()" style="font-size:24px;background:none;border:none;cursor:pointer;color:#94a3b8;">&times;</button></div>
@@ -990,6 +1021,7 @@
     </div>
 </div>
 
+<!-- CHANGE PASSWORD MODAL -->
 <div id="change-pass-modal" class="modal">
     <div class="modal-content" style="max-width:400px;">
         <div class="modal-header"><h2 style="color:#1e293b;">🔑 Change Password</h2><button onclick="document.getElementById('change-pass-modal').classList.remove('active')" style="font-size:24px;background:none;border:none;cursor:pointer;color:#94a3b8;">&times;</button></div>
@@ -1003,6 +1035,7 @@
     </div>
 </div>
 
+<!-- STUDENT QUIZ POPUP -->
 <div id="student-quiz-popup" class="student-quiz-popup">
     <div class="popup-content">
         <div class="popup-header">
@@ -1053,6 +1086,7 @@
     </div>
 </div>
 
+<!-- STUDENT DASHBOARD -->
 <div id="page-trainee" class="page">
     <nav style="padding:12px 20px;">
         <div style="display:flex;justify-content:space-between;align-items:center;width:100%;flex-wrap:wrap;gap:8px;">
@@ -1206,7 +1240,6 @@
         document.getElementById('progress-fill').style.width = '0%';
     }
 
-    // Enhanced loading with progress
     function showLoadingWithProgress(msg, showProgressBar = true) {
         document.getElementById('loading-msg').innerText = msg || 'Please wait...';
         document.getElementById('loading-overlay').classList.add('show');
@@ -1256,7 +1289,6 @@
     let activeUserIndex = null;
 
     // ----- BULK DELETE FUNCTIONS -----
-    
     window.toggleAllQuestions = function() {
         const checked = document.getElementById('select-all-questions').checked;
         document.querySelectorAll('.q-select-chk').forEach(cb => cb.checked = checked);
@@ -1268,7 +1300,6 @@
         const count = selected.length;
         const bar = document.getElementById('bulk-delete-bar');
         const display = document.getElementById('selected-count-display');
-        
         if (count > 0) {
             bar.style.display = 'flex';
             display.textContent = count;
@@ -1328,7 +1359,6 @@
         if (!confirm('⚠️ DELETE ALL QUESTIONS? This cannot be undone!')) return;
         if (!confirm('Are you absolutely sure? All questions will be permanently deleted!')) return;
         if (!confirm('Final warning: This will delete EVERY question in the bank. Proceed?')) return;
-        
         const total = questions.length;
         showLoadingWithProgress(`Deleting all ${total} questions...`, true);
         let deleted = 0;
@@ -1360,7 +1390,6 @@
             return;
         }
         if (!confirm(`Delete ALL ${toDelete.length} questions under "${subjectName}"? This cannot be undone!`)) return;
-        
         const total = toDelete.length;
         showLoadingWithProgress(`Deleting ${total} questions from "${subjectName}"...`, true);
         let deleted = 0;
@@ -1375,16 +1404,9 @@
             }
         }
         questions = questions.filter(q => q.subject !== subjectId);
-        quizzes.forEach(q => { 
-            if (q.questions) { 
-                q.questions = q.questions.filter(qId => !toDelete.some(d => d._id === qId)); 
-            } 
-        });
+        quizzes.forEach(q => { if (q.questions) { q.questions = q.questions.filter(qId => !toDelete.some(d => d._id === qId)); } });
         hideLoading();
-        renderQuestionBank();
-        renderQuizTable();
-        renderSubjectsTable();
-        renderChaptersTable();
+        renderQuestionBank(); renderQuizTable(); renderSubjectsTable(); renderChaptersTable();
         showToast(`✅ Deleted ${deleted} questions from "${subjectName}".`);
     };
 
@@ -1396,7 +1418,6 @@
             return;
         }
         if (!confirm(`Delete ALL ${toDelete.length} questions under "${chapterName}"? This cannot be undone!`)) return;
-        
         const total = toDelete.length;
         showLoadingWithProgress(`Deleting ${total} questions from "${chapterName}"...`, true);
         let deleted = 0;
@@ -1411,16 +1432,9 @@
             }
         }
         questions = questions.filter(q => q.chapter !== chapterId);
-        quizzes.forEach(q => { 
-            if (q.questions) { 
-                q.questions = q.questions.filter(qId => !toDelete.some(d => d._id === qId)); 
-            } 
-        });
+        quizzes.forEach(q => { if (q.questions) { q.questions = q.questions.filter(qId => !toDelete.some(d => d._id === qId)); } });
         hideLoading();
-        renderQuestionBank();
-        renderQuizTable();
-        renderSubjectsTable();
-        renderChaptersTable();
+        renderQuestionBank(); renderQuizTable(); renderSubjectsTable(); renderChaptersTable();
         showToast(`✅ Deleted ${deleted} questions from "${chapterName}".`);
     };
 
@@ -1477,10 +1491,7 @@
         }
     }
 
-    window.updateChapterDropdown = function() {
-        updateChapterDropdowns();
-    };
-
+    window.updateChapterDropdown = function() { updateChapterDropdowns(); };
     window.updateQuizChapterFilter = function() {
         const subjectId = document.getElementById('quiz-subject-filter').value;
         const quizChapter = document.getElementById('quiz-chapter-filter');
@@ -1672,19 +1683,7 @@
     // ----- IMPORT / EXPORT -----
     window.downloadQuestionPattern = function() {
         const patternData = [
-            {
-                'Question': 'What is 2+2?',
-                'Subject': 'Mathematics',
-                'Chapter': 'Algebra',
-                'Difficulty': 'Easy',
-                'Marks': '1',
-                'Option A': '4',
-                'Option B': '3',
-                'Option C': '5',
-                'Option D': '6',
-                'Correct': 'A',
-                'Reference': 'Chapter 1, Page 5'
-            }
+            { 'Question': 'What is 2+2?', 'Subject': 'Mathematics', 'Chapter': 'Algebra', 'Difficulty': 'Easy', 'Marks': '1', 'Option A': '4', 'Option B': '3', 'Option C': '5', 'Option D': '6', 'Correct': 'A', 'Reference': 'Chapter 1, Page 5' }
         ];
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.json_to_sheet(patternData);
@@ -1706,11 +1705,9 @@
                 const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                 const jsonData = XLSX.utils.sheet_to_json(firstSheet);
                 if (jsonData.length === 0) { showToast('File is empty!', true); return; }
-                
                 let imported = 0, errors = 0;
                 const totalRows = jsonData.length;
                 showLoadingWithProgress(`Importing ${totalRows} questions...`, true);
-                
                 for (let rowIndex = 0; rowIndex < jsonData.length; rowIndex++) {
                     const row = jsonData[rowIndex];
                     try {
@@ -1726,7 +1723,6 @@
                         const correct = row['Correct'] || row['correct'] || 'A';
                         const reference = row['Reference'] || row['reference'] || '';
                         if (!text || !subjectName || !chapterName || !opt0 || !opt1 || !opt2 || !opt3) { errors++; continue; }
-                        
                         let subj = subjects.find(s => s.name.toLowerCase() === subjectName.toLowerCase());
                         if (!subj) {
                             const sid = Date.now().toString() + Math.random().toString(36).slice(-4);
@@ -1734,7 +1730,6 @@
                             await setDoc(doc(db, SUBJECTS_COLL, sid), subj);
                             subjects.push(subj);
                         }
-                        
                         let chap = chapters.find(c => c.name.toLowerCase() === chapterName.toLowerCase() && c.subjectId === subj._id);
                         if (!chap) {
                             const cid = Date.now().toString() + Math.random().toString(36).slice(-4);
@@ -1742,7 +1737,6 @@
                             await setDoc(doc(db, CHAPTERS_COLL, cid), chap);
                             chapters.push(chap);
                         }
-                        
                         const correctMap = { A: 0, B: 1, C: 2, D: 3 };
                         const correctIdx = correctMap[correct.toUpperCase()] !== undefined ? correctMap[correct.toUpperCase()] : 0;
                         const qData = { text, subject: subj._id, chapter: chap._id, difficulty, marks, options: [opt0, opt1, opt2, opt3], correct: correctIdx, reference, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
@@ -1751,18 +1745,13 @@
                         questions.push({ _id: qid, ...qData });
                         imported++;
                     } catch(err) { errors++; console.error('Import row error:', err); }
-                    
                     const progress = Math.round(((rowIndex + 1) / totalRows) * 100);
                     showProgress(progress, `Importing ${rowIndex + 1}/${totalRows} (${progress}%)`);
                 }
-                
                 hideLoading();
                 renderSubjectsTable(); renderChaptersTable(); renderQuestionBank();
                 showToast(`✅ Imported ${imported} questions, ${errors} errors`);
-            } catch(err) { 
-                hideLoading();
-                showToast('Error: ' + err.message, true); 
-            }
+            } catch(err) { hideLoading(); showToast('Error: ' + err.message, true); }
         };
         reader.readAsArrayBuffer(file);
         event.target.value = '';
@@ -1885,28 +1874,43 @@
     window.toggleSpecificStudents = toggleSpecificStudents;
 
     window.renderQuizQuestionSelector = function() {
-        const container = document.getElementById('quiz-q-selector'); if (!container) return;
+        const container = document.getElementById('quiz-q-selector');
+        if (!container) return;
+
         const subjectFilter = document.getElementById('quiz-subject-filter').value;
         const chapterFilter = document.getElementById('quiz-chapter-filter').value;
         const diffFilter = document.getElementById('quiz-diff-filter').value;
         const search = document.getElementById('quiz-q-search').value.toLowerCase();
+
         let filtered = questions;
         if (subjectFilter !== 'all') filtered = filtered.filter(q => q.subject === subjectFilter);
         if (chapterFilter !== 'all') filtered = filtered.filter(q => q.chapter === chapterFilter);
         if (diffFilter !== 'all') filtered = filtered.filter(q => q.difficulty === diffFilter);
-        if (search) filtered = filtered.filter(q => q.text.toLowerCase().includes(search));
+        if (search) filtered = filtered.filter(q => (q.text || '').toLowerCase().includes(search));
         filtered = filtered.filter(q => !quizSelectedQuestions.includes(q._id));
-        document.getElementById('quiz-q-count').textContent = filtered.length + ' available';
-        if (filtered.length === 0) { container.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:10px;">No questions available.</div>'; return; }
-        container.innerHTML = filtered.map(q => `
-            <div class="quiz-q-selector-item">
-                <input type="checkbox" class="quiz-q-select-chk" value="${q._id}">
-                <span class="q-text">${q.text}</span>
-                <span class="subject-tag">${getSubjectName(q.subject)}</span>
-                <span class="chapter-tag">${getChapterName(q.chapter)}</span>
-                <span class="badge ${q.difficulty === 'Easy' ? 'badge-easy' : q.difficulty === 'Medium' ? 'badge-medium' : 'badge-hard'}">${q.difficulty}</span>
-                <span style="font-size:11px;color:#64748b;">${q.marks || 1} marks</span>
-            </div>
+
+        const countEl = document.getElementById('quiz-q-count');
+        if (countEl) countEl.textContent = filtered.length + ' available';
+        const availableCount = document.getElementById('available-q-count');
+        if (availableCount) availableCount.textContent = filtered.length;
+
+        if (filtered.length === 0) {
+            container.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:20px;">No questions available.</td></tr>';
+            return;
+        }
+
+        container.innerHTML = filtered.map((q, idx) => `
+            <tr class="quiz-q-selector-row">
+                <td style="text-align:center;">
+                    <input type="checkbox" class="quiz-q-select-chk" value="${q._id}" style="width:18px;height:18px;cursor:pointer;">
+                </td>
+                <td style="text-align:center;font-weight:bold;">${idx + 1}</td>
+                <td style="min-width:350px;max-width:550px;white-space:normal;line-height:1.5;padding:10px;">${q.text || ''}</td>
+                <td><span class="subject-tag">${getSubjectName(q.subject)}</span></td>
+                <td><span class="chapter-tag">${getChapterName(q.chapter)}</span></td>
+                <td><span class="badge ${q.difficulty === 'Easy' ? 'badge-easy' : q.difficulty === 'Medium' ? 'badge-medium' : 'badge-hard'}">${q.difficulty || 'N/A'}</span></td>
+                <td style="text-align:center;font-weight:bold;">${q.marks || 1}</td>
+            </tr>
         `).join('');
     };
 
@@ -2081,20 +2085,18 @@
         window.exportSingleQuiz(quizId);
     };
 
-    // ----- STUDENT QUIZ FUNCTIONS (FIXED - Shows Start button for Multiple Attempts) -----
+    // ----- STUDENT QUIZ FUNCTIONS -----
     function updateStudentQuizList() {
-        const container = document.getElementById('student-quiz-container'); 
+        const container = document.getElementById('student-quiz-container');
         if (!container) return;
-        if (!activeUser) { 
-            container.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:20px;">No quizzes available.</td></tr>'; 
-            return; 
+        if (!activeUser) {
+            container.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:20px;">No quizzes available.</td></tr>';
+            return;
         }
-        
         const phase = detectCurrentPhase(activeUser);
         const now = new Date();
         const studentId = activeUser._id;
-        
-        // Filter available quizzes
+
         const available = quizzes.filter(q => {
             if (q.status !== 'published') return false;
             if (q.phase !== phase && q.phase !== 'All') return false;
@@ -2107,7 +2109,6 @@
                 const idx = trainees.findIndex(t => t._id === studentId);
                 if (!q.specificStudents.includes(idx)) return false;
             }
-            // For single attempt quizzes, hide if already attempted
             if (q.attemptsType === 'single') {
                 if (q.attemptedStudents && q.attemptedStudents.includes(studentId)) {
                     return false;
@@ -2115,19 +2116,17 @@
             }
             return true;
         });
-        
-        if (available.length === 0) { 
-            container.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:20px;">No quizzes available.</td></tr>'; 
-            return; 
+
+        if (available.length === 0) {
+            container.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:20px;">No quizzes available.</td></tr>';
+            return;
         }
-        
+
         container.innerHTML = available.map((q, idx) => {
             const hasAttempted = q.attemptedStudents && q.attemptedStudents.includes(studentId);
             const isSingleAttempt = q.attemptsType === 'single';
-            // Only show "Completed" for single attempt quizzes that are already attempted
-            // For multiple attempt quizzes, always show "Start" button
             const showStart = !(isSingleAttempt && hasAttempted);
-            
+
             return `
             <tr>
                 <td>${idx+1}</td>
@@ -2136,8 +2135,8 @@
                 <td>${q.timeLimit||30} min</td>
                 <td>${q.attemptsType === 'single' ? '🔹 Single' : '🔄 Multiple'}</td>
                 <td>
-                    ${showStart 
-                        ? `<button class="btn btn-purple btn-sm" onclick="window.startQuiz('${q._id}')">▶️ Start</button>`
+                    ${showStart
+                        ? `<button class="btn btn-purple btn-sm" onclick="window.startQuiz('${q._id}')" style="padding:8px 14px;font-size:13px;">▶️ Start</button>`
                         : `<span style="color:#16a34a;font-weight:bold;">✅ Completed</span>`
                     }
                 </td>
@@ -2240,20 +2239,20 @@
         let timeLeft = timeLimit * 60;
         const timerEl = document.getElementById('attempt-timer');
         if (window.quizTimerInterval) clearInterval(window.quizTimerInterval);
-        window.quizTimerInterval = setInterval(() => { 
-            timeLeft--; 
-            const mins = Math.floor(timeLeft/60), secs = timeLeft%60; 
-            timerEl.textContent = `⏱️ ${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`; 
-            if (timeLeft <= 0) { 
-                clearInterval(window.quizTimerInterval); 
-                alert('⏰ Time is up!'); 
-                window.submitAttempt(); 
-            } 
+        window.quizTimerInterval = setInterval(() => {
+            timeLeft--;
+            const mins = Math.floor(timeLeft/60), secs = timeLeft%60;
+            timerEl.textContent = `⏱️ ${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            if (timeLeft <= 0) {
+                clearInterval(window.quizTimerInterval);
+                alert('⏰ Time is up!');
+                window.submitAttempt();
+            }
         }, 1000);
         modal.classList.add('active');
     };
 
-    window.saveAttemptAnswer = function(qIndex, answer) { 
+    window.saveAttemptAnswer = function(qIndex, answer) {
         if (quizAttemptData) {
             quizAttemptData.answers[qIndex] = answer;
             renderQuestionAtIndex(currentQuestionIndex);
@@ -2272,7 +2271,7 @@
         let totalMarks = 0;
         let maxMarks = 0;
         const detailedAnswers = [];
-        questions.forEach((qst, idx) => { 
+        questions.forEach((qst, idx) => {
             const userAns = answers[idx];
             const isCorrect = userAns === qst.correct;
             const marks = qst.marks || 1;
@@ -2335,7 +2334,7 @@
             detailHtml += `
                 <div class="result-answer-item ${statusClass}">
                     <div>
-                        <span class="q-label">Q${idx+1}:</span> ${item.text} 
+                        <span class="q-label">Q${idx+1}:</span> ${item.text}
                         <span style="font-size:11px;color:#64748b;">(${item.marks} mark${item.marks>1?'s':''})</span>
                         ${item.reference ? `<span style="font-size:10px;color:#64748b;display:block;">📖 Reference: ${item.reference}</span>` : ''}
                     </div>
@@ -2463,9 +2462,7 @@
         if (!confirm('Delete this history record?')) return;
         await deleteDoc(doc(db, QUIZ_HISTORY_COLL, id));
         quizHistory = quizHistory.filter(h => h._id !== id);
-        renderAdminQuizHistory();
-        renderStudentQuizHistory();
-        showToast('History deleted.');
+        renderAdminQuizHistory(); renderStudentQuizHistory(); showToast('History deleted.');
     };
 
     window.deleteAllHistory = async function() {
@@ -2474,9 +2471,7 @@
             await deleteDoc(doc(db, QUIZ_HISTORY_COLL, h._id));
         }
         quizHistory = [];
-        renderAdminQuizHistory();
-        renderStudentQuizHistory();
-        showToast('All history deleted.');
+        renderAdminQuizHistory(); renderStudentQuizHistory(); showToast('All history deleted.');
     };
 
     window.resetHistoryFilters = function() {
@@ -2570,9 +2565,9 @@
         showLoadingWithProgress('Reading Excel file...', false);
         const reader = new FileReader();
         reader.onload = function(e) {
-            try { 
-                const data = new Uint8Array(e.target.result); 
-                const workbook = XLSX.read(data, { type: 'array' }); 
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
                 const jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
                 if (jsonData.length === 0) { hideLoading(); showToast('File empty!', true); return; }
                 const mappedData = jsonData.map(row => { const keys = Object.keys(row); const getVal = (searchKeys) => { for (const key of keys) if (searchKeys.some(s => key.toLowerCase().trim() === s.toLowerCase().trim())) return row[key] || ''; return ''; }; return { name: getVal(['Name','Student Name']), cnic: getVal(['CNIC','ID']), city: getVal(['City','District']), address: getVal(['Address']), father: getVal(['Father']), mother: getVal(['Mother']), brothers: getVal(['Brothers']), sisters: getVal(['Sisters']), contact: getVal(['Contact']), whatsapp: getVal(['WhatsApp']), emergency: getVal(['Emergency']), matric: getVal(['Matric']), fsc: getVal(['FSc']), phase: getVal(['Phase']), password: getVal(['Password']), resetCode: getVal(['ResetCode']), book: getVal(['Book']), teacher: getVal(['Teacher']), stamp: getVal(['Stamp']) }; });
@@ -2581,34 +2576,34 @@
                 let imported = 0, errors = 0, errMsgs = [];
                 const totalRows = validRows.length;
                 showLoadingWithProgress(`Importing ${totalRows} students...`, true);
-                (async function processRows() { 
+                (async function processRows() {
                     for (let i = 0; i < validRows.length; i++) {
                         const row = validRows[i];
-                        try { 
-                            const passHash = await hashPassword(row.password); 
-                            let dupPass = trainees.some(t => t.passwordHash === passHash || t.password === row.password); 
-                            let dupCode = trainees.some(t => t.resetCode === row.resetCode); 
-                            if (dupPass) { errors++; errMsgs.push(`${row.name}: Password used`); continue; } 
-                            if (dupCode) { errors++; errMsgs.push(`${row.name}: Reset Code used`); continue; } 
-                            let bookId = '', bookTasks = 0; 
-                            const matched = books.find(b => b.title.toLowerCase() === (row.book||'Standard').toLowerCase()); 
-                            if (matched) { bookId = matched._id; bookTasks = matched.totalTasks; } 
-                            const newT = { name: row.name, cnic: row.cnic||'Not Set', city: row.city||'N/A', address: row.address||'Not Set', password: '', passwordHash: passHash, resetCode: row.resetCode, activePhase: row.phase||'Phase-1', matric: row.matric||'0/0', fsc: row.fsc||'0/0', father: row.father||'N/A', mother: row.mother||'N/A', brothers: row.brothers||'N/A', sisters: row.sisters||'N/A', contact: row.contact||'N/A', whatsapp: row.whatsapp||'N/A', emergency: row.emergency||'N/A', book: row.book||'Standard', bookId, mainTopics: bookTasks, subTopics: 0, teacher: row.teacher||'Not Assigned', stampNo: row.stamp||'None', phase1StartDate: '', phase1EndDate: '', phase2StartDate: '', phase2EndDate: '', leavesList: [], phase1: { orientation: 0, exams: [0,0,0,0,0,0], mid: 0, final: 0, avg: '0%', endorsements: [[],[],[],[],[],[]], examDates: {} }, phase2: { exams: [0,0,0,0,0,0], mid: 0, final: 0, avg: '0%', endorsements: [[],[],[],[],[],[]], examDates: {} } }; 
-                            saveTrainee(newT); 
-                            trainees.push(newT); 
-                            imported++; 
-                        } catch(err) { errors++; errMsgs.push(`${row.name}: ${err.message}`); } 
+                        try {
+                            const passHash = await hashPassword(row.password);
+                            let dupPass = trainees.some(t => t.passwordHash === passHash || t.password === row.password);
+                            let dupCode = trainees.some(t => t.resetCode === row.resetCode);
+                            if (dupPass) { errors++; errMsgs.push(`${row.name}: Password used`); continue; }
+                            if (dupCode) { errors++; errMsgs.push(`${row.name}: Reset Code used`); continue; }
+                            let bookId = '', bookTasks = 0;
+                            const matched = books.find(b => b.title.toLowerCase() === (row.book||'Standard').toLowerCase());
+                            if (matched) { bookId = matched._id; bookTasks = matched.totalTasks; }
+                            const newT = { name: row.name, cnic: row.cnic||'Not Set', city: row.city||'N/A', address: row.address||'Not Set', password: '', passwordHash: passHash, resetCode: row.resetCode, activePhase: row.phase||'Phase-1', matric: row.matric||'0/0', fsc: row.fsc||'0/0', father: row.father||'N/A', mother: row.mother||'N/A', brothers: row.brothers||'N/A', sisters: row.sisters||'N/A', contact: row.contact||'N/A', whatsapp: row.whatsapp||'N/A', emergency: row.emergency||'N/A', book: row.book||'Standard', bookId, mainTopics: bookTasks, subTopics: 0, teacher: row.teacher||'Not Assigned', stampNo: row.stamp||'None', phase1StartDate: '', phase1EndDate: '', phase2StartDate: '', phase2EndDate: '', leavesList: [], phase1: { orientation: 0, exams: [0,0,0,0,0,0], mid: 0, final: 0, avg: '0%', endorsements: [[],[],[],[],[],[]], examDates: {} }, phase2: { exams: [0,0,0,0,0,0], mid: 0, final: 0, avg: '0%', endorsements: [[],[],[],[],[],[]], examDates: {} } };
+                            saveTrainee(newT);
+                            trainees.push(newT);
+                            imported++;
+                        } catch(err) { errors++; errMsgs.push(`${row.name}: ${err.message}`); }
                         const progress = Math.round(((i + 1) / totalRows) * 100);
                         showProgress(progress, `Importing ${i+1}/${totalRows} (${progress}%)`);
-                    } 
-                    hideLoading(); 
-                    let msg = `✅ Imported: ${imported}`; 
-                    if (errors > 0) msg += `\n❌ Failed: ${errors}\n${errMsgs.slice(0,10).join('\n')}`; 
-                    alert(msg); 
-                    fileInput.value = ''; 
-                    renderAdminTable(); 
-                    populateBookDropdowns(); 
-                    if (imported > 0) showToast(`🎉 ${imported} students imported!`); 
+                    }
+                    hideLoading();
+                    let msg = `✅ Imported: ${imported}`;
+                    if (errors > 0) msg += `\n❌ Failed: ${errors}\n${errMsgs.slice(0,10).join('\n')}`;
+                    alert(msg);
+                    fileInput.value = '';
+                    renderAdminTable();
+                    populateBookDropdowns();
+                    if (imported > 0) showToast(`🎉 ${imported} students imported!`);
                 })();
             } catch(err) { hideLoading(); showToast('Error: '+err.message, true); }
         }; reader.readAsArrayBuffer(file);
@@ -2627,61 +2622,57 @@
     window.handleLogin = async function() {
         const role = document.getElementById('login-role').value;
         const pass = document.getElementById('login-pass').value;
-        
+
         if (role === 'teacher') {
             showLoadingWithProgress('Verifying...', false);
             const ok = await checkAdminPassword(pass);
             hideLoading();
-            if (ok) { 
-                await loadTrainees(); 
-                await loadBooks(); 
-                await loadSubjects(); 
-                await loadChapters(); 
-                await loadQuestions(); 
-                await loadQuizzes(); 
-                await loadQuizHistory(); 
-                renderAdminTable(); 
-                showPage('page-admin'); 
+            if (ok) {
+                await loadTrainees();
+                await loadBooks();
+                await loadSubjects();
+                await loadChapters();
+                await loadQuestions();
+                await loadQuizzes();
+                await loadQuizHistory();
+                renderAdminTable();
+                showPage('page-admin');
             } else {
                 alert('❌ Incorrect Teacher Password!');
             }
         } else {
             // Student login
-            await loadTrainees(); 
-            await loadQuizzes(); 
+            await loadTrainees();
+            await loadQuizzes();
             await loadQuizHistory();
-            
+
             if (trainees.length === 0) {
                 alert('No students registered. Please contact the administrator.');
                 return;
             }
-            
-            // If password is empty, show a helpful message
+
             if (!pass || pass.trim() === '') {
                 alert('Please enter your password.');
                 return;
             }
-            
+
             const passHash = await hashPassword(pass);
-            
-            // Try to find student by passwordHash (preferred method)
+
             let idx = trainees.findIndex(t => t.passwordHash === passHash);
-            
-            // If not found, try plain text password (for backward compatibility)
+
             if (idx === -1) {
                 idx = trainees.findIndex(t => t.password === pass);
             }
-            
-            // If still not found, try comparing hash with plain (some old records might have hash in password field)
+
             if (idx === -1) {
                 idx = trainees.findIndex(t => t.passwordHash === pass);
             }
-            
-            if (idx !== -1) { 
-                activeUser = trainees[idx]; 
-                activeUserIndex = idx; 
-                loadTraineeDashboard(idx); 
-                showPage('page-trainee'); 
+
+            if (idx !== -1) {
+                activeUser = trainees[idx];
+                activeUserIndex = idx;
+                loadTraineeDashboard(idx);
+                showPage('page-trainee');
             } else {
                 alert('❌ Incorrect Student Password! Please check your password and try again.');
             }
@@ -2697,10 +2688,10 @@
         if (idx === -1) { alert('Invalid Security Code!'); return; }
         const newHash = await hashPassword(newPass);
         if (trainees.some((t, i) => i !== idx && t.passwordHash === newHash)) { alert('Password already taken!'); return; }
-        trainees[idx].passwordHash = newHash; 
+        trainees[idx].passwordHash = newHash;
         trainees[idx].password = "";
-        await saveTrainee(trainees[idx]); 
-        alert('✅ Password updated!'); 
+        await saveTrainee(trainees[idx]);
+        alert('✅ Password updated!');
         showPage('page-login');
     };
 
@@ -2725,9 +2716,9 @@
         if (trainees.some(t => t.resetCode === code)) { alert('Choose a unique reset code!'); return; }
         let ce = () => [[],[],[],[],[],[]];
         let newT = { name, cnic:"Not Set", city:city||"N/A", address:"Not Set", password:"", passwordHash:passHash, resetCode:code, activePhase:aPhase, matric:"0/0", fsc:"0/0", father:"N/A", mother:"N/A", brothers:"N/A", sisters:"N/A", contact:"N/A", whatsapp:"N/A", emergency:"N/A", book:selBookTitle, mainTopics:selBookTasks, subTopics:0, teacher:teacher||"Not Assigned", stampNo:stamp||"None", phase1StartDate:"", phase1EndDate:"", phase2StartDate:"", phase2EndDate:"", leavesList:[], phase1:{ orientation:0, exams:[0,0,0,0,0,0], mid:0, final:0, avg:"0%", endorsements:ce() }, phase2:{ exams:[0,0,0,0,0,0], mid:0, final:0, avg:"0%", endorsements:ce() } };
-        await saveTrainee(newT); 
-        trainees.push(newT); 
-        alert('🎉 Student Added!'); 
+        await saveTrainee(newT);
+        trainees.push(newT);
+        alert('🎉 Student Added!');
         renderAdminTable();
         ['new-name','new-city','new-teacher','new-stamp','new-pass','new-code'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('new-book-select').value = '';
@@ -2853,63 +2844,63 @@
             alert('Edit window could not be opened. Error: ' + err.message);
         }
     };
-    
+
     window.closeEditModal = function() { document.getElementById('edit-modal').classList.remove('active'); };
 
     window.saveTraineeData = async function() {
-        if (currentEditingIndex === null || currentEditingIndex === undefined || !trainees[currentEditingIndex]) { 
-            alert('No student selected!'); 
-            return; 
+        if (currentEditingIndex === null || currentEditingIndex === undefined || !trainees[currentEditingIndex]) {
+            alert('No student selected!');
+            return;
         }
         let t = trainees[currentEditingIndex];
         let inputPass = document.getElementById('edit-password').value.trim();
         if (inputPass !== '') { const inputHash = await hashPassword(inputPass); if (trainees.some((ts,i) => i!==currentEditingIndex && (ts.passwordHash===inputHash || ts.password===inputPass))) { alert('Password already taken!'); return; } trainees[currentEditingIndex].passwordHash = inputHash; trainees[currentEditingIndex].password = ""; }
-        let newCode = document.getElementById('edit-reset-code').value.trim(); 
+        let newCode = document.getElementById('edit-reset-code').value.trim();
         if (newCode && trainees.some((ts,i) => i!==currentEditingIndex && ts.resetCode===newCode)) { alert('Reset Code already used!'); return; }
-        t.name = document.getElementById('edit-name').value; 
-        t.cnic = document.getElementById('edit-cnic').value; 
-        t.city = document.getElementById('edit-city').value; 
-        t.address = document.getElementById('edit-address').value; 
-        if (newCode) t.resetCode = newCode; 
-        t.activePhase = document.getElementById('edit-active-phase').value; 
-        t.matric = document.getElementById('edit-matric').value; 
-        t.fsc = document.getElementById('edit-fsc').value; 
-        t.father = document.getElementById('edit-father').value; 
-        t.mother = document.getElementById('edit-mother').value; 
-        t.brothers = document.getElementById('edit-brothers').value; 
-        t.sisters = document.getElementById('edit-sisters').value; 
-        t.contact = document.getElementById('edit-contact').value; 
-        t.whatsapp = document.getElementById('edit-whatsapp').value; 
-        t.emergency = document.getElementById('edit-emergency').value; 
-        const bookSel = document.getElementById('edit-book-select'); 
-        const bookOpt = bookSel.options[bookSel.selectedIndex]; 
-        t.book = bookOpt ? bookOpt.text : ""; 
-        t.bookId = bookOpt ? bookOpt.value : ""; 
-        t.mainTopics = parseInt(document.getElementById('edit-maintopics').value) || 0; 
-        t.subTopics = parseInt(document.getElementById('edit-subtopics').value)||0; 
-        t.teacher = document.getElementById('edit-teacher').value; 
-        t.stampNo = document.getElementById('edit-stamp').value; 
-        t.leavesList = JSON.parse(JSON.stringify(tempLeavesBuffer)); 
-        t.phase1StartDate = document.getElementById('edit-p1-start').value; 
-        t.phase1EndDate = document.getElementById('edit-p1-end').value; 
-        t.phase2StartDate = document.getElementById('edit-p2-start').value; 
+        t.name = document.getElementById('edit-name').value;
+        t.cnic = document.getElementById('edit-cnic').value;
+        t.city = document.getElementById('edit-city').value;
+        t.address = document.getElementById('edit-address').value;
+        if (newCode) t.resetCode = newCode;
+        t.activePhase = document.getElementById('edit-active-phase').value;
+        t.matric = document.getElementById('edit-matric').value;
+        t.fsc = document.getElementById('edit-fsc').value;
+        t.father = document.getElementById('edit-father').value;
+        t.mother = document.getElementById('edit-mother').value;
+        t.brothers = document.getElementById('edit-brothers').value;
+        t.sisters = document.getElementById('edit-sisters').value;
+        t.contact = document.getElementById('edit-contact').value;
+        t.whatsapp = document.getElementById('edit-whatsapp').value;
+        t.emergency = document.getElementById('edit-emergency').value;
+        const bookSel = document.getElementById('edit-book-select');
+        const bookOpt = bookSel.options[bookSel.selectedIndex];
+        t.book = bookOpt ? bookOpt.text : "";
+        t.bookId = bookOpt ? bookOpt.value : "";
+        t.mainTopics = parseInt(document.getElementById('edit-maintopics').value) || 0;
+        t.subTopics = parseInt(document.getElementById('edit-subtopics').value)||0;
+        t.teacher = document.getElementById('edit-teacher').value;
+        t.stampNo = document.getElementById('edit-stamp').value;
+        t.leavesList = JSON.parse(JSON.stringify(tempLeavesBuffer));
+        t.phase1StartDate = document.getElementById('edit-p1-start').value;
+        t.phase1EndDate = document.getElementById('edit-p1-end').value;
+        t.phase2StartDate = document.getElementById('edit-p2-start').value;
         t.phase2EndDate = document.getElementById('edit-p2-end').value;
-        t.phase1.orientation = parseInt(document.getElementById('edit-p1-orientation').value)||0; 
-        let p1Sum = t.phase1.orientation; 
-        for (let i=0;i<6;i++) { t.phase1.exams[i] = parseInt(document.getElementById(`edit-p1-ex${i}`).value)||0; p1Sum += t.phase1.exams[i]; } 
-        t.phase1.mid = parseInt(document.getElementById('edit-p1-mid').value)||0; 
-        t.phase1.final = parseInt(document.getElementById('edit-p1-final').value)||0; 
-        p1Sum += (t.phase1.mid + t.phase1.final); 
-        t.phase1.avg = ((p1Sum/900)*100).toFixed(1)+"%"; 
-        t.phase1.examDates = { orientation: document.getElementById('edit-p1-date-orientation').value, v0: document.getElementById('edit-p1-date0').value, v1: document.getElementById('edit-p1-date1').value, v2: document.getElementById('edit-p1-date2').value, v3: document.getElementById('edit-p1-date3').value, v4: document.getElementById('edit-p1-date4').value, v5: document.getElementById('edit-p1-date5').value, mid: document.getElementById('edit-p1-date-mid').value, final: document.getElementById('edit-p1-date-final').value }; 
+        t.phase1.orientation = parseInt(document.getElementById('edit-p1-orientation').value)||0;
+        let p1Sum = t.phase1.orientation;
+        for (let i=0;i<6;i++) { t.phase1.exams[i] = parseInt(document.getElementById(`edit-p1-ex${i}`).value)||0; p1Sum += t.phase1.exams[i]; }
+        t.phase1.mid = parseInt(document.getElementById('edit-p1-mid').value)||0;
+        t.phase1.final = parseInt(document.getElementById('edit-p1-final').value)||0;
+        p1Sum += (t.phase1.mid + t.phase1.final);
+        t.phase1.avg = ((p1Sum/900)*100).toFixed(1)+"%";
+        t.phase1.examDates = { orientation: document.getElementById('edit-p1-date-orientation').value, v0: document.getElementById('edit-p1-date0').value, v1: document.getElementById('edit-p1-date1').value, v2: document.getElementById('edit-p1-date2').value, v3: document.getElementById('edit-p1-date3').value, v4: document.getElementById('edit-p1-date4').value, v5: document.getElementById('edit-p1-date5').value, mid: document.getElementById('edit-p1-date-mid').value, final: document.getElementById('edit-p1-date-final').value };
         t.phase1.endorsements = JSON.parse(JSON.stringify(tempP1Endorsements));
-        let p2Sum = 0; 
-        for (let i=0;i<6;i++) { t.phase2.exams[i] = parseInt(document.getElementById(`edit-p2-ex${i}`).value)||0; p2Sum += t.phase2.exams[i]; } 
-        t.phase2.mid = parseInt(document.getElementById('edit-p2-mid').value)||0; 
-        t.phase2.final = parseInt(document.getElementById('edit-p2-final').value)||0; 
-        p2Sum += (t.phase2.mid + t.phase2.final); 
-        t.phase2.avg = ((p2Sum/800)*100).toFixed(1)+"%"; 
-        t.phase2.examDates = { v0: document.getElementById('edit-p2-date0').value, v1: document.getElementById('edit-p2-date1').value, v2: document.getElementById('edit-p2-date2').value, v3: document.getElementById('edit-p2-date3').value, v4: document.getElementById('edit-p2-date4').value, v5: document.getElementById('edit-p2-date5').value, mid: document.getElementById('edit-p2-date-mid').value, final: document.getElementById('edit-p2-date-final').value }; 
+        let p2Sum = 0;
+        for (let i=0;i<6;i++) { t.phase2.exams[i] = parseInt(document.getElementById(`edit-p2-ex${i}`).value)||0; p2Sum += t.phase2.exams[i]; }
+        t.phase2.mid = parseInt(document.getElementById('edit-p2-mid').value)||0;
+        t.phase2.final = parseInt(document.getElementById('edit-p2-final').value)||0;
+        p2Sum += (t.phase2.mid + t.phase2.final);
+        t.phase2.avg = ((p2Sum/800)*100).toFixed(1)+"%";
+        t.phase2.examDates = { v0: document.getElementById('edit-p2-date0').value, v1: document.getElementById('edit-p2-date1').value, v2: document.getElementById('edit-p2-date2').value, v3: document.getElementById('edit-p2-date3').value, v4: document.getElementById('edit-p2-date4').value, v5: document.getElementById('edit-p2-date5').value, mid: document.getElementById('edit-p2-date-mid').value, final: document.getElementById('edit-p2-date-final').value };
         t.phase2.endorsements = JSON.parse(JSON.stringify(tempP2Endorsements));
         const saved = await saveTrainee(t);
         if (saved) {
@@ -2999,11 +2990,11 @@
         document.getElementById('change-pass-modal').classList.remove('active'); alert('✅ Password updated!');
     };
 
-    window.logout = function() { 
-        activeUser = null; 
+    window.logout = function() {
+        activeUser = null;
         activeUserIndex = null;
-        document.getElementById('login-pass').value = ''; 
-        showPage('page-login'); 
+        document.getElementById('login-pass').value = '';
+        showPage('page-login');
     };
 
     window.showPatternPopup = function() {
