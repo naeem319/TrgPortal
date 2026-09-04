@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
-<title>TRG Portal - Student Management System</title>
+<title>TRG Portal</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
@@ -6021,7 +6021,7 @@ function renderObserverView() {
         }
 
         async function loadTrainees() {
-            showLoading('Loading students...');
+            showLoading('Connecting to Server...');
             try {
                 const snap = await getDocs(collection(db, COLL));
                 trainees = [];
